@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Uid\Ulid;
 
 #[Entity]
+#[Table(name: 'products')]
 #[ApiResource]
 class Product
 {
