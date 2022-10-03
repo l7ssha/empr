@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
@@ -40,7 +39,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return [];
     }
 
-    public function eraseCredentials() {}
+    public function eraseCredentials()
+    {
+    }
 
     public function getUserIdentifier(): string
     {

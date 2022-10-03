@@ -18,7 +18,7 @@ class AuthUserProvider implements UserProviderInterface, PasswordUpgraderInterfa
     public function refreshUser(UserInterface $user)
     {
         if (!$user instanceof User) {
-            throw new \Exception("Invalid class: " . $user::class);
+            throw new \Exception('Invalid class: '.$user::class);
         }
 
         $this->userRepository->save($user);
@@ -31,7 +31,7 @@ class AuthUserProvider implements UserProviderInterface, PasswordUpgraderInterfa
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return $this->userRepository->findByEmail($identifier) ?? throw new \Exception("missing user");
+        return $this->userRepository->findByEmail($identifier) ?? throw new \Exception('missing user');
     }
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
