@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
-use App\Entity\User;
+use App\Entity\User\User;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 

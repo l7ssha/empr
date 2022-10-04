@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\User;
+use App\Entity\User\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
