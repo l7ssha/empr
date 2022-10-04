@@ -4,3 +4,7 @@ controllers:
 
 api_login:
     path: /api/auth/login
+
+api_doc:
+    path: /docs
+    controller: api_platform.swagger_ui.action

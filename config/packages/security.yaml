@@ -5,7 +5,7 @@ security:
     providers:
         # the name of your user provider can be anything
         users:
-            id: App\Auth\AuthUserProvider
+            id: App\Security\AuthUserProvider
 
     firewalls:
         login:
@@ -25,6 +25,7 @@ security:
     access_control:
         - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/auth/login, roles: PUBLIC_ACCESS }
+        - { path: ^/docs, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

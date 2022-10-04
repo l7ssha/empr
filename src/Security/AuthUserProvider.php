@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth;
+namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -15,16 +15,18 @@ class AuthUserProvider implements UserProviderInterface, PasswordUpgraderInterfa
     {
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): User
     {
         if (!$user instanceof User) {
             throw new \Exception('Invalid class: '.$user::class);
         }
 
         $this->userRepository->save($user);
+
+        return $user;
     }
 
-    public function supportsClass(string $class)
+    public function supportsClass(string $class): bool
     {
         return $class === User::class;
     }
