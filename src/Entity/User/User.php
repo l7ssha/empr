@@ -2,6 +2,13 @@
 
 namespace App\Entity\User;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use App\Dto\UserOutputDto;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -13,19 +20,44 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Ulid;
 
+#[ApiResource(
+    operations: [
+        new Get(security: "is_granted('ROLE_DISPLAY_USERS')"),
+        new GetCollection(security: "is_granted('ROLE_DISPLAY_USERS')"),
+    ],
+    output: UserOutputDto::class
+)]
 #[Entity]
 #[Table(name: 'users')]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'email' => 'ipartial',
+        'username' => 'ipartial',
+        'roles.name' => 'ipartial',
+    ]
+)]
+#[ApiFilter(
+    BooleanFilter::class,
+    properties: [
+        'systemUser',
+    ]
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ADMIN_ID = '01GEFRX9VHN2DF70HNH0K6MQSG';
     public const ADMIN_EMAIL = 'admin@example.com';
+    public const ADMIN_USERNAME = 'admin';
 
     #[Id]
     #[Column(type: 'string', length: 64)]
     private string $id;
 
-    #[Column(type: 'string', length: 64)]
+    #[Column(type: 'string', length: 64, unique: true)]
     private string $email;
+
+    #[Column(type: 'string', length: 32, unique: true)]
+    private string $username;
 
     #[Column(type: 'string')]
     private string $password;
@@ -34,16 +66,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ManyToMany(targetEntity: Role::class)]
     private Collection $roles;
 
-    #[Column(type: 'boolean', options: ['default' => 'false'])]
+    #[Column(type: 'boolean', updatable: false, options: ['default' => 'false'])]
     private bool $systemUser = false;
 
-    public function __construct(string $email, string $password, ?string $id = null)
+    public function __construct(string $email, string $username, string $password, ?string $id = null)
     {
         $this->id = $id ?? Ulid::generate();
         $this->email = $email;
+        $this->username = $username;
         $this->password = $password;
-
         $this->roles = new ArrayCollection();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
     }
 
     public function isSystemUser(): bool
@@ -52,14 +99,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return Collection<Role>
+     */
+    public function getRoleObjects(): Collection
+    {
+        return $this->roles;
+    }
+
+    /**
      * @return string[]
      */
     public function getRoles(): array
     {
-        return $this->roles
-            ->map(static fn (Role $role) => $role->getSymfonyName())
-            ->toArray()
-        ;
+        return $this->roles->map(static fn (Role $role) => $role->getSymfonyName())->toArray();
     }
 
     public function eraseCredentials()
@@ -68,7 +120,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->email;
+        return $this->username;
     }
 
     public function getPassword(): ?string

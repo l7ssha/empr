@@ -33,7 +33,7 @@ class AuthUserProvider implements UserProviderInterface, PasswordUpgraderInterfa
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return $this->userRepository->findByEmail($identifier) ?? throw new \Exception('missing user');
+        return $this->userRepository->findByUsername($identifier) ?? throw new \Exception('missing user');
     }
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void

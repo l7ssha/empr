@@ -39,6 +39,11 @@ class Role
         return $this->description;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     public function getSymfonyName(): string
     {
         return "ROLE_$this->name";

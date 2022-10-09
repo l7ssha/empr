@@ -12,9 +12,22 @@ class UserRepository
     {
     }
 
-    public function findByEmail(string $email): ?User
+    public function findByUsername(string $username): ?User
     {
-        return $this->getRepository()->findOneBy(['email' => $email]);
+        return $this->getRepository()->findOneBy(['username' => $username]);
+    }
+
+    public function findById(string $id): ?User
+    {
+        return $this->getRepository()->find($id);
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findAll(): array
+    {
+        return $this->getRepository()->findAll();
     }
 
     public function save(User $user): void
