@@ -2,6 +2,8 @@
 
 namespace App\Dto;
 
+use App\Entity\User\PositionOutputDto;
+
 class UserOutputDto
 {
     public string $id;
@@ -10,4 +12,5 @@ class UserOutputDto
     public bool $systemUser;
     /** @var array<UserRoleOutputDto> */
     public array $roles;
+    public PositionOutputDto $position;
 }

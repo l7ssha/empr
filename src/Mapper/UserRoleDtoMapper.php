@@ -5,7 +5,7 @@ namespace App\Mapper;
 use App\Dto\UserRoleOutputDto;
 use App\Entity\User\Role;
 
-class UserRoleMapper
+class UserRoleDtoMapper
 {
     public function mapRoleToOutputDto(Role $role): UserRoleOutputDto
     {

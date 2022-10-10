@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User\User;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,10 +16,13 @@ class AuthUserProvider implements UserProviderInterface, PasswordUpgraderInterfa
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function refreshUser(UserInterface $user): User
     {
         if (!$user instanceof User) {
-            throw new \Exception('Invalid class: '.$user::class);
+            throw new Exception('Invalid class: '.$user::class);
         }
 
         $this->userRepository->save($user);
@@ -31,9 +35,12 @@ class AuthUserProvider implements UserProviderInterface, PasswordUpgraderInterfa
         return $class === User::class;
     }
 
+    /**
+     * @throws Exception
+     */
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return $this->userRepository->findByUsername($identifier) ?? throw new \Exception('missing user');
+        return $this->userRepository->findByUsername($identifier) ?? throw new Exception('missing user');
     }
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void

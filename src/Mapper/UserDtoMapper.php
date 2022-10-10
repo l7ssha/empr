@@ -8,8 +8,10 @@ use App\Entity\User\User;
 
 class UserDtoMapper
 {
-    public function __construct(private readonly UserRoleMapper $userRoleMapper)
-    {
+    public function __construct(
+        private readonly UserRoleDtoMapper $userRoleMapper,
+        private readonly PositionDtoMapper $positionDtoMapper
+    ) {
     }
 
     public function mapUserToOutputDto(User $user): UserOutputDto
@@ -23,6 +25,7 @@ class UserDtoMapper
         $dto->roles = $user->getRoleObjects()->map(
             fn (Role $role) => $this->userRoleMapper->mapRoleToOutputDto($role)
         )->toArray();
+        $dto->position = $this->positionDtoMapper->mapPositionToOutputDto($user->getPosition());
 
         return $dto;
     }

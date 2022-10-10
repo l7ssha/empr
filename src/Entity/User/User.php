@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -62,12 +63,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(type: 'string')]
     private string $password;
 
-    /** @var Collection<User> */
+    /** @var Collection<Role> */
     #[ManyToMany(targetEntity: Role::class)]
     private Collection $roles;
 
     #[Column(type: 'boolean', updatable: false, options: ['default' => 'false'])]
     private bool $systemUser = false;
+
+    #[ManyToOne(targetEntity: Position::class)]
+    private ?Position $position = null;
 
     public function __construct(string $email, string $username, string $password, ?string $id = null)
     {
@@ -76,6 +80,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
         $this->password = $password;
         $this->roles = new ArrayCollection();
+    }
+
+    public function getPosition(): Position
+    {
+        return $this->position;
     }
 
     public function getId(): string
@@ -111,7 +120,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        return $this->roles->map(static fn (Role $role) => $role->getSymfonyName())->toArray();
+        return array_map(
+            static fn (Role $role) => $role->getSymfonyName(),
+            array_merge(
+                $this->roles->toArray(),
+                $this->position->getRoles()->toArray()
+            )
+        );
     }
 
     public function eraseCredentials()
