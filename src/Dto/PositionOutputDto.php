@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Entity\User;
-
-use App\Dto\UserRoleOutputDto;
+namespace App\Dto;
 
 class PositionOutputDto
 {

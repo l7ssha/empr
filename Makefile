@@ -39,8 +39,8 @@ database-migrations-migrate: ## Migrate migrations
 	docker compose exec -it app bin/console doctrine:migrations:migrate --no-interaction
 
 .PHONY: database-migrations-diff
-database-migrate: ## Create migration based on database <-> entities diff
-	docker compose exec -it app bin/console doctrine:migrations:diff --no-interactio
+database-migrations-diff: ## Create migration based on database <-> entities diff
+	docker compose exec -it app bin/console doctrine:migrations:diff --no-interaction
 
 .PHONY: database-drop
 database-drop: ## Drop database

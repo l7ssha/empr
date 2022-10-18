@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User\User;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 
@@ -12,9 +13,15 @@ class UserRepository
     {
     }
 
-    public function findByUsername(string $username): ?User
+    public function findByUsernameOrEmail(string $identifier): ?User
     {
-        return $this->getRepository()->findOneBy(['username' => $username]);
+        return $this->getRepository()->createQueryBuilder('u')
+            ->where('u.username = :identifier')
+            ->orWhere('u.email = :identifier')
+            ->setParameter('identifier', $identifier)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     public function findById(string $id): ?User
@@ -37,7 +44,7 @@ class UserRepository
     }
 
     /**
-     * @return ObjectRepository<User>
+     * @return EntityRepository<User>
      */
     public function getRepository(): ObjectRepository
     {

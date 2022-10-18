@@ -37,6 +37,8 @@ use Symfony\Component\Uid\Ulid;
         'email' => 'ipartial',
         'username' => 'ipartial',
         'roles.name' => 'ipartial',
+        'position.name' => 'ipartial',
+        'position.id' => 'exact',
     ]
 )]
 #[ApiFilter(

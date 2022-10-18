@@ -20,7 +20,7 @@ class AuthUserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user): UserInterface
     {
-        return $this->userRepository->findByUsername($user->getUserIdentifier());
+        return $this->userRepository->findByUsernameOrEmail($user->getUserIdentifier());
     }
 
     public function supportsClass(string $class): bool
@@ -33,6 +33,6 @@ class AuthUserProvider implements UserProviderInterface
      */
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return $this->userRepository->findByUsername($identifier) ?? throw UserNotFoundException::fromUserUsername($identifier);
+        return $this->userRepository->findByUsernameOrEmail($identifier) ?? throw UserNotFoundException::fromUserUsername($identifier);
     }
 }

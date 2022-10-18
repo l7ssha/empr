@@ -33,6 +33,7 @@ class JWTCreatedListener
         return [
             'exp' => $expiration->getTimestamp(),
             'id' => $user->getId(),
+            'email' => $user->getEmail(),
             'position' => $user->getPosition(),
             'systemUser' => $user->isSystemUser(),
         ];

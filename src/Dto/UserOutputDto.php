@@ -2,8 +2,6 @@
 
 namespace App\Dto;
 
-use App\Entity\User\PositionOutputDto;
-
 class UserOutputDto
 {
     public string $id;

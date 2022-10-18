@@ -2,8 +2,8 @@
 
 namespace App\Mapper;
 
+use App\Dto\PositionOutputDto;
 use App\Entity\User\Position;
-use App\Entity\User\PositionOutputDto;
 use App\Entity\User\Role;
 
 class PositionDtoMapper

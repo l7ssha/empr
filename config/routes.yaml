@@ -5,6 +5,9 @@ controllers:
 api_login:
     path: /api/auth/login
 
+api_refresh_token:
+    path: /api/auth/refresh
+
 api_doc:
     path: /docs
     controller: api_platform.swagger_ui.action

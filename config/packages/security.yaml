@@ -15,22 +15,32 @@ security:
             stateless: true
             json_login:
                 check_path: /api/auth/login
-                username_path: username
+                username_path: login
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             provider: auth_user_provider
 
-        api:
-            pattern:   ^/api
+        refresh:
+            pattern: ^/api/auth/refresh
             stateless: true
+            refresh_jwt:
+                check_path: api_refresh_token
+            provider: auth_user_provider
+
+        api:
+            pattern: ^/api
+            stateless: true
+#            entry_point: jwt
             jwt: ~
+#            refresh_jwt: ~
             provider: jwt
 
     access_control:
-        - { path: ^/api,            roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/auth/login, roles: PUBLIC_ACCESS }
-        - { path: ^/docs,           roles: PUBLIC_ACCESS }
+        - { path: ^/api/auth/login,     roles: PUBLIC_ACCESS }
+        - { path: ^/api/auth/refresh,   roles: PUBLIC_ACCESS }
+        - { path: ^/docs,               roles: PUBLIC_ACCESS }
+        - { path: ^/api,                roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

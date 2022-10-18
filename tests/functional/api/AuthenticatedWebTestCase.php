@@ -68,7 +68,7 @@ abstract class AuthenticatedWebTestCase extends ApiTestCase
      */
     public static function assertHttpResponseStatusCodeSame(int $expectedCode, ResponseInterface $response): void
     {
-        self::assertEquals($response->getStatusCode(), $expectedCode);
+        self::assertEquals($expectedCode, $response->getStatusCode());
     }
 
     /**
