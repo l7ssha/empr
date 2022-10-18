@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Normalizer;
+namespace App\DataTransformer;
 
 use App\Dto\UserOutputDto;
 use App\Entity\User\User;
