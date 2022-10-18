@@ -11,6 +11,6 @@ class UserOutputDto
     public string $username;
     public bool $systemUser;
     /** @var array<UserRoleOutputDto> */
-    public array $roles;
-    public PositionOutputDto $position;
+    public array $roles = [];
+    public ?PositionOutputDto $position = null;
 }

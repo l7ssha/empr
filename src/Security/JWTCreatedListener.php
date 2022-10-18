@@ -11,19 +11,30 @@ class JWTCreatedListener
 {
     public function onJWTCreated(JWTCreatedEvent $event): void
     {
-        $expiration = new DateTime('now');
-
-        /** @var User $user */
         $user = $event->getUser();
+        if (!$user instanceof User) {
+            return;
+        }
 
+        $event->setData(
+            array_merge($event->getData(), $this->getPayloadData($user))
+        );
+    }
+
+    private function getPayloadData(User $user): array
+    {
+        $expiration = new DateTime('now');
         if ($user->isSystemUser()) {
             $expiration->add(new DateInterval('PT1Y'));
         } else {
             $expiration->add(new DateInterval('PT10M'));
         }
 
-        $payload = $event->getData();
-        $payload['exp'] = $expiration->getTimestamp();
-        $event->setData($payload);
+        return [
+            'exp' => $expiration->getTimestamp(),
+            'id' => $user->getId(),
+            'position' => $user->getPosition(),
+            'systemUser' => $user->isSystemUser(),
+        ];
     }
 }

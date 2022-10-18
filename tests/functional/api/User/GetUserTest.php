@@ -2,7 +2,8 @@
 
 namespace App\Tests\functional\api\User;
 
-use App\Tests\AuthenticatedWebTestCase;
+use App\Security\PredefinedRoles;
+use App\Tests\functional\api\AuthenticatedWebTestCase;
 
 class GetUserTest extends AuthenticatedWebTestCase
 {
@@ -10,8 +11,23 @@ class GetUserTest extends AuthenticatedWebTestCase
     {
         $client = self::createClient();
 
-        $client->request('GET', '/api/users');
+        $response = $client->request('GET', '/api/users');
+        self::assertHttpResponseStatusCodeSame(401, $response);
+    }
 
-        self::assertEquals(401, $client->getResponse()->getStatusCode());
+    public function testMissingPermissions(): void
+    {
+        $client = self::createClientWithRoles([]);
+
+        $response = $client->request('GET', '/api/users');
+        self::assertHttpResponseStatusCodeSame(403, $response);
+    }
+
+    public function testSuccess(): void
+    {
+        $client = self::createClientWithRoles(['ROLE_'.PredefinedRoles::ROLE_DISPLAY_USERS]);
+
+        $response = $client->request('GET', '/api/users');
+        self::assertHttpResponseStatusCodeSame(200, $response);
     }
 }

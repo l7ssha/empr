@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
@@ -44,6 +45,7 @@ use Symfony\Component\Uid\Ulid;
         'systemUser',
     ]
 )]
+#[Index(columns: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ADMIN_ID = '01GEFRX9VHN2DF70HNH0K6MQSG';
@@ -82,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = new ArrayCollection();
     }
 
-    public function getPosition(): Position
+    public function getPosition(): ?Position
     {
         return $this->position;
     }
@@ -124,7 +126,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             static fn (Role $role) => $role->getSymfonyName(),
             array_merge(
                 $this->roles->toArray(),
-                $this->position->getRoles()->toArray()
+                $this->position?->getRoles()?->toArray() ?? []
             )
         );
     }

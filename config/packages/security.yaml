@@ -1,11 +1,13 @@
 security:
+    enable_authenticator_manager: true
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     providers:
-        # the name of your user provider can be anything
-        users:
+        auth_user_provider:
             id: App\Security\AuthUserProvider
+        jwt:
+            lexik_jwt: ~
 
     firewalls:
         login:
@@ -17,15 +19,18 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            provider: auth_user_provider
+
         api:
             pattern:   ^/api
             stateless: true
             jwt: ~
+            provider: jwt
 
     access_control:
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api,            roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/auth/login, roles: PUBLIC_ACCESS }
-        - { path: ^/docs, roles: PUBLIC_ACCESS }
+        - { path: ^/docs,           roles: PUBLIC_ACCESS }
 
 when@test:
     security:

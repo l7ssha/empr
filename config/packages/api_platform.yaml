@@ -6,6 +6,8 @@ api_platform:
   formats:
     json:
       mime_types: [ 'application/json' ]
+    jsonld:
+      mime_types: [ 'application/ld+json' ]
 
   defaults:
     pagination_client_items_per_page: true
@@ -14,3 +16,6 @@ api_platform:
     pagination:
       items_per_page_parameter_name: perPage
       page_parameter_name: page
+
+  exception_to_status:
+    App\Exception\NotFoundException: 404

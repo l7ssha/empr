@@ -25,7 +25,9 @@ class UserDtoMapper
         $dto->roles = $user->getRoleObjects()->map(
             fn (Role $role) => $this->userRoleMapper->mapRoleToOutputDto($role)
         )->toArray();
-        $dto->position = $this->positionDtoMapper->mapPositionToOutputDto($user->getPosition());
+        $dto->position = $user->getPosition()
+            ? $this->positionDtoMapper->mapPositionToOutputDto($user->getPosition())
+            : null;
 
         return $dto;
     }
