@@ -31,9 +31,7 @@ security:
         api:
             pattern: ^/api
             stateless: true
-#            entry_point: jwt
             jwt: ~
-#            refresh_jwt: ~
             provider: jwt
 
     access_control:
