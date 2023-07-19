@@ -9,5 +9,5 @@ api_refresh_token:
     path: /api/auth/refresh
 
 api_doc:
-    path: /docs
+    path: /api/docs
     controller: api_platform.swagger_ui.action

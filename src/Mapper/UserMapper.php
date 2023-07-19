@@ -8,7 +8,7 @@ use App\Dto\UserOutputDto;
 use App\Entity\User\Role;
 use App\Entity\User\User;
 
-class UserDtoMapper
+class UserMapper
 {
     public function __construct(
         private readonly UserRoleDtoMapper $userRoleMapper,

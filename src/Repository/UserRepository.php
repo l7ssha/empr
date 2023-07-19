@@ -39,10 +39,13 @@ class UserRepository
         return $this->getRepository()->findAll();
     }
 
-    public function save(User $user): void
+    public function save(User $user, bool $flush = false): void
     {
         $this->manager->getManager()->persist($user);
-        $this->manager->getManager()->flush();
+
+        if ($flush) {
+            $this->manager->getManager()->flush();
+        }
     }
 
     /**

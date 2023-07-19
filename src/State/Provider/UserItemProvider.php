@@ -8,13 +8,13 @@ use ApiPlatform\Doctrine\Orm\State\ItemProvider;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Entity\User\User;
-use App\Mapper\UserDtoMapper;
+use App\Mapper\UserMapper;
 
 class UserItemProvider implements ProviderInterface
 {
     public function __construct(
         private readonly ItemProvider $itemProvider,
-        private readonly UserDtoMapper $userDtoMapper,
+        private readonly UserMapper $userDtoMapper,
     ) {
     }
 

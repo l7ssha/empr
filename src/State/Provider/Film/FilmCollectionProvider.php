@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\State\Provider;
+namespace App\State\Provider\Film;
 
 use ApiPlatform\Doctrine\Orm\State\CollectionProvider;
 use ApiPlatform\Metadata\Operation;
@@ -10,15 +10,15 @@ use ApiPlatform\State\Pagination\PaginatorInterface;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
 use App\ApiPlatform\CallbackCollectionPaginator;
-use App\Dto\UserOutputDto;
-use App\Entity\User\User;
-use App\Mapper\UserMapper;
+use App\Dto\Film\FilmOutputDto;
+use App\Entity\Film\Film;
+use App\Mapper\Film\FilmMapper;
 
-class UserCollectionProvider implements ProviderInterface
+class FilmCollectionProvider implements ProviderInterface
 {
     public function __construct(
         private readonly CollectionProvider $collectionProvider,
-        private readonly UserMapper $userDtoMapper,
+        private readonly FilmMapper $mapper,
     ) {
     }
 
@@ -26,16 +26,16 @@ class UserCollectionProvider implements ProviderInterface
      * @param array<array-key, string> $uriVariables
      * @param array<array-key, array<array-key, mixed>> $context
      *
-     * @return CallbackCollectionPaginator<User, UserOutputDto>
+     * @return CallbackCollectionPaginator<Film, FilmOutputDto>
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): PartialPaginatorInterface
     {
-        /** @var PaginatorInterface<User>&\IteratorAggregate<User> $result */
+        /** @var PaginatorInterface<Film>&\IteratorAggregate<Film> $result */
         $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
 
         return new CallbackCollectionPaginator(
             $result,
-            fn (User $productionOrder) => $this->userDtoMapper->mapUserToOutputDto($productionOrder),
+            fn (Film $productionOrder) => $this->mapper->mapFilmToOutputDto($productionOrder),
         );
     }
 }

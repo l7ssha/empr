@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\UuidV6;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
@@ -57,15 +58,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Id]
     #[Column(length: 36, updatable: false)]
+    #[Assert\Uuid]
     private readonly string $id;
 
     #[Column(updatable: false, options: ['default' => 'false'])]
     private bool $systemUser = false;
 
     #[Column(length: 64, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private string $email;
 
     #[Column(length: 32, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     private string $username;
 
     #[Column]
