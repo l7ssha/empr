@@ -18,10 +18,10 @@ class Role
     #[Column(length: 36, updatable: false)]
     private readonly string $id;
 
-    #[Column(length: '64', unique: true, updatable: false)]
+    #[Column(length: 64, unique: true, updatable: false)]
     private readonly string $name;
 
-    #[Column(length: '255')]
+    #[Column(length: 255)]
     private string $description;
 
     public function __construct(string $name, string $description, string $id = null)

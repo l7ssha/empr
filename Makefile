@@ -34,12 +34,12 @@ composer-install: ## Install composer dependencies
 composer-update: ## Update composer dependencies
 	docker compose exec -it app composer update
 
-.PHONY: database-migrations-migrate
-database-migrations-migrate: ## Migrate migrations
+.PHONY: migrations-migrate
+migrations-migrate: ## Migrate migrations
 	docker compose exec -it app bin/console doctrine:migrations:migrate --no-interaction
 
-.PHONY: database-migrations-diff
-database-migrations-diff: ## Create migration based on database <-> entities diff
+.PHONY: migrations-diff
+migrations-diff: ## Create migration based on database <-> entities diff
 	docker compose exec -it app bin/console doctrine:migrations:diff --no-interaction
 
 .PHONY: database-drop

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-class NotFoundException extends \RuntimeException
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+class NotFoundException extends NotFoundHttpException
 {
-    public function __construct(string $message)
-    {
-        parent::__construct($message);
-    }
 }
