@@ -18,7 +18,10 @@ abstract class AbstractRoleMigration extends AbstractMigration
     /**
      * @return string[]
      */
-    abstract public function getUserToAddRoleTo(): array;
+    public function getUserToAddRoleTo(): array
+    {
+        return [];
+    }
 
     public function up(Schema $schema): void
     {
