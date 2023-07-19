@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\User;
 
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
@@ -9,6 +11,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Dto\UserOutputDto;
+use App\State\Provider\UserCollectionProvider;
+use App\State\Provider\UserItemProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -16,16 +20,15 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Uid\UuidV6;
 
 #[ApiResource(
     operations: [
-        new Get(security: "is_granted('ROLE_DISPLAY_USERS')"),
-        new GetCollection(security: "is_granted('ROLE_DISPLAY_USERS')"),
+        new Get(security: "is_granted('ROLE_DISPLAY_USERS')", provider: UserItemProvider::class),
+        new GetCollection(security: "is_granted('ROLE_DISPLAY_USERS')", provider: UserCollectionProvider::class),
     ],
     output: UserOutputDto::class
 )]
@@ -37,8 +40,6 @@ use Symfony\Component\Uid\Ulid;
         'email' => 'ipartial',
         'username' => 'ipartial',
         'roles.name' => 'ipartial',
-        'position.name' => 'ipartial',
-        'position.id' => 'exact',
     ]
 )]
 #[ApiFilter(
@@ -50,45 +51,37 @@ use Symfony\Component\Uid\Ulid;
 #[Index(columns: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public const ADMIN_ID = '01GEFRX9VHN2DF70HNH0K6MQSG';
+    public const ADMIN_ID = 'c71d6654-f564-4b1d-975d-cd7242e5455a';
     public const ADMIN_EMAIL = 'admin@example.com';
     public const ADMIN_USERNAME = 'admin';
 
     #[Id]
-    #[Column(type: 'string', length: 64)]
-    private string $id;
+    #[Column(length: 36, updatable: false)]
+    private readonly string $id;
 
-    #[Column(type: 'string', length: 64, unique: true)]
+    #[Column(updatable: false, options: ['default' => 'false'])]
+    private bool $systemUser = false;
+
+    #[Column(length: 64, unique: true)]
     private string $email;
 
-    #[Column(type: 'string', length: 32, unique: true)]
+    #[Column(length: 32, unique: true)]
     private string $username;
 
-    #[Column(type: 'string')]
+    #[Column]
     private string $password;
 
     /** @var Collection<Role> */
     #[ManyToMany(targetEntity: Role::class)]
     private Collection $roles;
 
-    #[Column(type: 'boolean', updatable: false, options: ['default' => 'false'])]
-    private bool $systemUser = false;
-
-    #[ManyToOne(targetEntity: Position::class)]
-    private ?Position $position = null;
-
-    public function __construct(string $email, string $username, string $password, ?string $id = null)
+    public function __construct(string $email, string $username, string $password, string $id = null)
     {
-        $this->id = $id ?? Ulid::generate();
+        $this->id = $id ?? UuidV6::generate();
         $this->email = $email;
         $this->username = $username;
         $this->password = $password;
         $this->roles = new ArrayCollection();
-    }
-
-    public function getPosition(): ?Position
-    {
-        return $this->position;
     }
 
     public function getId(): string
@@ -124,13 +117,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        return array_map(
-            static fn (Role $role) => $role->getSymfonyName(),
-            array_merge(
-                $this->roles->toArray(),
-                $this->position?->getRoles()?->toArray() ?? []
-            )
-        );
+        return $this
+            ->getRoleObjects()
+            ->map(static fn (Role $role) => $role->getName())
+            ->toArray()
+        ;
     }
 
     public function eraseCredentials()

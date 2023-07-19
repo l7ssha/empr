@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mapper;
 
 use App\Dto\UserOutputDto;
@@ -10,7 +12,6 @@ class UserDtoMapper
 {
     public function __construct(
         private readonly UserRoleDtoMapper $userRoleMapper,
-        private readonly PositionDtoMapper $positionDtoMapper
     ) {
     }
 
@@ -25,9 +26,6 @@ class UserDtoMapper
         $dto->roles = $user->getRoleObjects()->map(
             fn (Role $role) => $this->userRoleMapper->mapRoleToOutputDto($role)
         )->toArray();
-        $dto->position = $user->getPosition()
-            ? $this->positionDtoMapper->mapPositionToOutputDto($user->getPosition())
-            : null;
 
         return $dto;
     }

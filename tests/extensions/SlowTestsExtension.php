@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\extensions;
 
-use function count;
-
 use PHPUnit\Runner\AfterLastTestHook;
 use PHPUnit\Runner\AfterTestHook;
 
@@ -63,12 +61,12 @@ class SlowTestsExtension implements AfterTestHook, AfterLastTestHook
 
     protected function getReportLength(): int
     {
-        return min(count($this->slow), $this->reportLength);
+        return min(\count($this->slow), $this->reportLength);
     }
 
     private function getHiddenCount(): int
     {
-        $total = count($this->slow);
+        $total = \count($this->slow);
         $showing = $this->getReportLength();
 
         $hidden = 0;

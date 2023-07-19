@@ -8,7 +8,7 @@ use App\Entity\User\User;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20221003203009 extends AbstractMigration
+final class Version20230719003312 extends AbstractMigration
 {
     private const ADMIN_PASSWORD = '$2y$13$.iZjnCjHREqEct9TjmM1CuAfNZxNOzjJBTff8twL.DH/21.lZ6sES';
 
@@ -20,10 +20,11 @@ final class Version20221003203009 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql(sprintf(
-            "INSERT INTO users (id, email, password) VALUES ('%s', '%s', '%s')",
+            "INSERT INTO users (id, email, username, password) VALUES ('%s', '%s', '%s', '%s')",
             User::ADMIN_ID,
             User::ADMIN_EMAIL,
-            self::ADMIN_PASSWORD
+            User::ADMIN_USERNAME,
+            self::ADMIN_PASSWORD,
         ));
     }
 

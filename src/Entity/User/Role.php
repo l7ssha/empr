@@ -1,30 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity\User;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
-use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Uid\UuidV6;
 
 #[Entity]
 #[Table(name: 'user_roles')]
 class Role
 {
     #[Id]
-    #[Column(type: 'string', length: 64)]
-    private string $id;
+    #[Column(length: 36, updatable: false)]
+    private readonly string $id;
 
-    #[Column(type: 'string', length: '64', unique: true, updatable: false)]
-    private string $name;
+    #[Column(length: '64', unique: true, updatable: false)]
+    private readonly string $name;
 
-    #[Column(type: 'string', length: '255')]
+    #[Column(length: '255')]
     private string $description;
 
-    public function __construct(string $name, string $description, ?string $id = null)
+    public function __construct(string $name, string $description, string $id = null)
     {
-        $this->id = $id ?? Ulid::generate();
+        $this->id = $id ?? UuidV6::generate();
         $this->name = $name;
         $this->description = $description;
     }
@@ -42,10 +44,5 @@ class Role
     public function getName(): string
     {
         return $this->name;
-    }
-
-    public function getSymfonyName(): string
-    {
-        return "ROLE_$this->name";
     }
 }

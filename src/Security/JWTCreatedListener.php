@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Entity\User\User;
-use DateInterval;
-use DateTime;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 
 class JWTCreatedListener
@@ -23,18 +23,17 @@ class JWTCreatedListener
 
     private function getPayloadData(User $user): array
     {
-        $expiration = new DateTime('now');
+        $expiration = new \DateTime('now');
         if ($user->isSystemUser()) {
-            $expiration->add(new DateInterval('PT1Y'));
+            $expiration->add(new \DateInterval('PT1Y'));
         } else {
-            $expiration->add(new DateInterval('PT10M'));
+            $expiration->add(new \DateInterval('PT10M'));
         }
 
         return [
             'exp' => $expiration->getTimestamp(),
             'id' => $user->getId(),
             'email' => $user->getEmail(),
-            'position' => $user->getPosition(),
             'systemUser' => $user->isSystemUser(),
         ];
     }

@@ -4,11 +4,11 @@ help:
 
 .PHONY: cs-fix
 cs-fix: ## Run cs-fixer
-	docker compose run app vendor/bin/php-cs-fixer fix --show-progress=dots
+	docker compose run app vendor/bin/php-cs-fixer fix --show-progress=dots --allow-risky=yes
 
 .PHONY: cs-fix-check
 cs-fix-check: ## Run cs-fixer
-	docker compose run app vendor/bin/php-cs-fixer fix --show-progress=dots --dry-run
+	docker compose run app vendor/bin/php-cs-fixer fix --show-progress=dots --allow-risky=yes --dry-run
 
 .PHONY: server-start
 server-start: ## Start server

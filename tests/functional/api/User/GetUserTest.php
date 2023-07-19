@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\functional\api\User;
 
 use App\Security\PredefinedRoles;
@@ -25,7 +27,7 @@ class GetUserTest extends AuthenticatedWebTestCase
 
     public function testSuccess(): void
     {
-        $client = self::createClientWithRoles(['ROLE_'.PredefinedRoles::ROLE_DISPLAY_USERS]);
+        $client = self::createClientWithRoles([PredefinedRoles::ROLE_DISPLAY_USERS]);
 
         $response = $client->request('GET', '/api/users');
         self::assertHttpResponseStatusCodeSame(200, $response);

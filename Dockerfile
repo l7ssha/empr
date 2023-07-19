@@ -14,8 +14,10 @@ RUN set -ex \
 
 RUN docker-php-ext-install pdo pdo_pgsql zip xsl gd intl opcache exif mbstring
 
+RUN apk add --update linux-headers
+
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
-    && pecl install xdebug-3.1.5 \
+    && pecl install xdebug-3.2.2 \
     && docker-php-ext-enable xdebug \
     && apk del -f .build-deps
 

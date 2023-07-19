@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Dto;
 
 class UserOutputDto
@@ -10,5 +12,4 @@ class UserOutputDto
     public bool $systemUser;
     /** @var array<UserRoleOutputDto> */
     public array $roles = [];
-    public ?PositionOutputDto $position = null;
 }

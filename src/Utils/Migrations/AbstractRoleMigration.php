@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils\Migrations;
 
 use App\Security\PredefinedRoles;
@@ -18,9 +20,6 @@ abstract class AbstractRoleMigration extends AbstractMigration
      */
     abstract public function getUserToAddRoleTo(): array;
 
-    /**
-     * {@inheritDoc}
-     */
     public function up(Schema $schema): void
     {
         foreach ($this->getRolesToAdd() as $role) {
