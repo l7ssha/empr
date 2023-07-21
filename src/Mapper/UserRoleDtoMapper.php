@@ -15,7 +15,6 @@ class UserRoleDtoMapper
 
         $dto->id = $role->getId();
         $dto->name = $role->getName();
-        $dto->description = $role->getDescription();
 
         return $dto;
     }

@@ -6,6 +6,7 @@ namespace App\State\Processor;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
+use ApiPlatform\Validator\ValidatorInterface;
 use App\Dto\Film\FilmCreateDto;
 use App\Dto\Film\FilmOutputDto;
 use App\Entity\Film\Film;
@@ -17,6 +18,7 @@ readonly class CreateFilmProcessor implements ProcessorInterface
     public function __construct(
         private FilmRepository $filmRepository,
         private FilmMapper $filmMapper,
+        private ValidatorInterface $validator,
     ) {
     }
 
@@ -31,6 +33,7 @@ readonly class CreateFilmProcessor implements ProcessorInterface
             ->setSpeed($data->speed)
         ;
 
+        $this->validator->validate($film);
         $this->filmRepository->save($film, true);
 
         return $this->filmMapper->mapFilmToOutputDto($film);
