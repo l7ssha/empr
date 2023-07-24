@@ -1,11 +1,11 @@
 import {Container} from "@mui/material";
 import {BasePage} from "./BasePage";
 
-export const MainPage = () => {
+export const FilmsPage = () => {
     return (
         <BasePage>
             <Container>
-                TEST
+                FILMS
             </Container>
         </BasePage>
     )

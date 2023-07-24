@@ -10,12 +10,16 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import {MainPage} from "./page/MainPage";
+import {FilmsPage} from "./page/FilmsPage";
 
 const App = () => {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path='/login' element={<LoginPage />}/>
+
+                <Route path='/films' element={<ProtectedRoute><FilmsPage /></ProtectedRoute>} />
+
                 <Route path='/' element={<ProtectedRoute><MainPage /></ProtectedRoute>} />
             </Routes>
         </BrowserRouter>
