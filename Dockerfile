@@ -12,6 +12,13 @@ RUN set -ex \
     libpng-dev \
     oniguruma-dev
 
+# Add node-js and yarn
+RUN set -eux \
+    & apk add \
+        --no-cache \
+        nodejs \
+        yarn
+
 RUN docker-php-ext-install pdo pdo_pgsql zip xsl gd intl opcache exif mbstring
 
 RUN apk add --update linux-headers
@@ -30,6 +37,7 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} >
     && "date"
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 
 USER 1000
 

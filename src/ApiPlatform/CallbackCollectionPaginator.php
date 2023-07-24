@@ -14,15 +14,15 @@ use IteratorAggregate;
  * @implements PaginatorInterface<TOutput>
  * @implements IteratorAggregate<TOutput>
  */
-class CallbackCollectionPaginator implements PaginatorInterface, \IteratorAggregate
+readonly class CallbackCollectionPaginator implements PaginatorInterface, \IteratorAggregate
 {
     /**
      * @param PaginatorInterface<TInput>&\IteratorAggregate<TInput> $paginator
      * @param \Closure(TInput):TOutput $callback
      */
     public function __construct(
-        private readonly PaginatorInterface&\IteratorAggregate $paginator,
-        private readonly \Closure $callback,
+        private PaginatorInterface&\IteratorAggregate $paginator,
+        private \Closure $callback,
     ) {
     }
 

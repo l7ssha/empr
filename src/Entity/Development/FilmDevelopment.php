@@ -52,6 +52,7 @@ class FilmDevelopment
     public function setDevelopmentNumber(string $developmentNumber): self
     {
         $this->developmentNumber = $developmentNumber;
+
         return $this;
     }
 
@@ -63,6 +64,7 @@ class FilmDevelopment
     public function setKit(DevelopmentKit $kit): self
     {
         $this->kit = $kit;
+
         return $this;
     }
 
@@ -74,6 +76,7 @@ class FilmDevelopment
     public function setFilm(Film $film): self
     {
         $this->film = $film;
+
         return $this;
     }
 }
