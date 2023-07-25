@@ -1,12 +1,16 @@
-import {Container} from "@mui/material";
+import {Container, Paper} from "@mui/material";
 import {BasePage} from "./BasePage";
 
 export const MainPage = () => {
     return (
         <BasePage>
             <Container>
-                TEST
+                <Paper elevation={0} variant="outlined" square sx={{marginTop: '10px', padding: '5px'}}>
+                    <Paper elevation={0} variant="outlined" square sx={{marginTop: '10px', padding: '5px'}}>
+                        TEST
+                    </Paper>
+                </Paper>
             </Container>
         </BasePage>
-    )
+    );
 }

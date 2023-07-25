@@ -1,6 +1,5 @@
 import { useLocalStorage } from "../useLocalStorage";
 
-// NOTE: optimally move this into a separate file
 export interface User {
     username: string;
     token: string;
@@ -11,6 +10,14 @@ export const useUser = () => {
     const { setItem, getItem } = useLocalStorage();
 
     const setUser = (user: User) => {
+        setItem("user", JSON.stringify(user));
+    };
+
+    const updateUser = ({token, refreshToken}) => {
+        const user = getUser();
+        user.token = token;
+        user.refreshToken = refreshToken;
+
         setItem("user", JSON.stringify(user));
     };
 
@@ -27,5 +34,5 @@ export const useUser = () => {
         return JSON.parse(getItem("user"));
     }
 
-    return { getUser, setUser, removeUser };
+    return { getUser, setUser, removeUser, updateUser };
 };
