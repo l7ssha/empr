@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\ApiPlatform;
 
 use ApiPlatform\State\Pagination\PaginatorInterface;
+use Closure;
 use IteratorAggregate;
+use Traversable;
 
 /**
  * @template TInput of object
@@ -14,15 +16,15 @@ use IteratorAggregate;
  * @implements PaginatorInterface<TOutput>
  * @implements IteratorAggregate<TOutput>
  */
-readonly class CallbackCollectionPaginator implements PaginatorInterface, \IteratorAggregate
+readonly class CallbackCollectionPaginator implements PaginatorInterface, IteratorAggregate
 {
     /**
-     * @param PaginatorInterface<TInput>&\IteratorAggregate<TInput> $paginator
-     * @param \Closure(TInput):TOutput $callback
+     * @param PaginatorInterface<TInput>&IteratorAggregate<TInput> $paginator
+     * @param Closure(TInput):TOutput $callback
      */
     public function __construct(
-        private PaginatorInterface&\IteratorAggregate $paginator,
-        private \Closure $callback,
+        private PaginatorInterface&IteratorAggregate $paginator,
+        private Closure $callback,
     ) {
     }
 
@@ -51,7 +53,7 @@ readonly class CallbackCollectionPaginator implements PaginatorInterface, \Itera
         return $this->paginator->getItemsPerPage();
     }
 
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
         $fn = $this->callback;
         foreach ($this->paginator->getIterator() as $key => $outputItem) {

@@ -51,7 +51,7 @@ class Film
     #[Assert\Positive]
     private int $speed;
 
-    public function __construct(string $id = null)
+    public function __construct(?string $id = null)
     {
         $this->id = $id ?? UuidV6::generate();
     }

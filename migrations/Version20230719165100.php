@@ -53,7 +53,7 @@ final class Version20230719165100 extends AbstractMigration
                     $film['name'],
                     $film['type']->value,
                     $film['speed'],
-                )
+                ),
             );
         }
     }

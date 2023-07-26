@@ -13,6 +13,7 @@ use App\ApiPlatform\CallbackCollectionPaginator;
 use App\Dto\UserOutputDto;
 use App\Entity\User\User;
 use App\Mapper\UserMapper;
+use IteratorAggregate;
 
 class UserCollectionProvider implements ProviderInterface
 {
@@ -30,7 +31,7 @@ class UserCollectionProvider implements ProviderInterface
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): PartialPaginatorInterface
     {
-        /** @var PaginatorInterface<User>&\IteratorAggregate<User> $result */
+        /** @var PaginatorInterface<User>&IteratorAggregate<User> $result */
         $result = $this->collectionProvider->provide($operation, $uriVariables, $context);
 
         return new CallbackCollectionPaginator(

@@ -29,9 +29,9 @@ final class PartialCollectionNormalizer implements NormalizerInterface, Normaliz
     /**
      * @param PaginatorInterface<object> $object
      *
-     * @return array<string, mixed>
-     *
      * @throws ExceptionInterface
+     *
+     * @return array<string, mixed>
      */
     public function normalize($object, $format = null, array $context = []): array
     {

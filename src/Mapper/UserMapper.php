@@ -24,7 +24,7 @@ class UserMapper
         $dto->email = $user->getEmail();
         $dto->systemUser = $user->isSystemUser();
         $dto->roles = $user->getRoleObjects()->map(
-            fn (Role $role) => $this->userRoleMapper->mapRoleToOutputDto($role)
+            fn (Role $role) => $this->userRoleMapper->mapRoleToOutputDto($role),
         )->toArray();
 
         return $dto;

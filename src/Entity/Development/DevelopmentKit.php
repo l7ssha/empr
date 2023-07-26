@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity\Development;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use App\Dto\Development\DevelopmentKitOutputDto;
 use App\Enum\DevelopmentType;
+use App\State\Provider\Development\DevelopmentKit\DevelopmentKitCollectionProvider;
+use App\State\Provider\Development\DevelopmentKit\DevelopmentKitProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -17,7 +23,14 @@ use Symfony\Component\Uid\UuidV6;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[Entity]
-#[Table(name: 'development_kit')]
+#[Table(name: 'development_kits')]
+#[ApiResource(
+    operations: [
+        new Get(provider: DevelopmentKitProvider::class),
+        new GetCollection(provider: DevelopmentKitCollectionProvider::class),
+    ],
+    output: DevelopmentKitOutputDto::class,
+)]
 class DevelopmentKit
 {
     #[Id]
@@ -46,7 +59,7 @@ class DevelopmentKit
     #[Assert\Valid]
     private DevelopmentKitTimes $developmentTimes;
 
-    public function __construct(string $name, string $id = null)
+    public function __construct(string $name, ?string $id = null)
     {
         $this->name = $name;
         $this->id = $id ?? UuidV6::generate();

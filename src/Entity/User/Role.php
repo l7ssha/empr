@@ -30,7 +30,7 @@ class Role
     #[Assert\Length(max: 255)]
     private string $description;
 
-    public function __construct(string $name, string $description, string $id = null)
+    public function __construct(string $name, string $description, ?string $id = null)
     {
         $this->id = $id ?? UuidV6::generate();
         $this->name = $name;

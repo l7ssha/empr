@@ -9,9 +9,7 @@ use PHPUnit\Runner\AfterTestHook;
 
 class SlowTestsExtension implements AfterTestHook, AfterLastTestHook
 {
-    /**
-     * @var array<string, int>
-     */
+    /** @var array<string, int> */
     private array $slow = [];
 
     public function __construct(private readonly int $slowThreshold = 500, private readonly int $reportLength = 10)

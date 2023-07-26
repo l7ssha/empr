@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(security: "is_granted('ROLE_DISPLAY_USERS')", provider: UserItemProvider::class),
         new GetCollection(security: "is_granted('ROLE_DISPLAY_USERS')", provider: UserCollectionProvider::class),
     ],
-    output: UserOutputDto::class
+    output: UserOutputDto::class,
 )]
 #[Entity]
 #[Table(name: 'users')]
@@ -41,13 +41,13 @@ use Symfony\Component\Validator\Constraints as Assert;
         'email' => 'ipartial',
         'username' => 'ipartial',
         'roles.name' => 'ipartial',
-    ]
+    ],
 )]
 #[ApiFilter(
     BooleanFilter::class,
     properties: [
         'systemUser',
-    ]
+    ],
 )]
 #[Index(columns: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -81,7 +81,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ManyToMany(targetEntity: Role::class)]
     private Collection $roles;
 
-    public function __construct(string $email, string $username, string $password, string $id = null)
+    public function __construct(string $email, string $username, string $password, ?string $id = null)
     {
         $this->id = $id ?? UuidV6::generate();
         $this->email = $email;

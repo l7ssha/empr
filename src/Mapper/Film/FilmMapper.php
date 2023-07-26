@@ -15,7 +15,7 @@ class FilmMapper
             $film->getId(),
             $film->getName(),
             $film->getType()->value,
-            $film->getSpeed()
+            $film->getSpeed(),
         );
     }
 }

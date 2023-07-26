@@ -34,7 +34,7 @@ class FilmDevelopment
     #[ManyToOne]
     private Film $film;
 
-    public function __construct(string $id = null)
+    public function __construct(?string $id = null)
     {
         $this->id = $id ?? UuidV6::generate();
     }

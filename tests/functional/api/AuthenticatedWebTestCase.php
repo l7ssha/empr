@@ -6,6 +6,7 @@ namespace App\Tests\functional\api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Symfony\Bundle\Test\Response as ApiPlatformResponse;
+use Exception;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -21,7 +22,7 @@ abstract class AuthenticatedWebTestCase extends ApiTestCase
     /**
      * @param string[] $roles
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function createClientWithRoles(array $roles): HttpClientInterface
     {
@@ -36,7 +37,7 @@ abstract class AuthenticatedWebTestCase extends ApiTestCase
                 'auth_bearer' => $token,
                 'base_uri' => 'https://localhost',
                 'headers' => self::GET_JSON_HEADERS,
-            ]
+            ],
         );
         $client->disableReboot();
 
@@ -46,7 +47,7 @@ abstract class AuthenticatedWebTestCase extends ApiTestCase
     /**
      * @param string[] $roles
      *
-     * @throws \Exception
+     * @throws Exception
      */
     private static function createTokenWithRoles(array $roles): string
     {
@@ -60,7 +61,7 @@ abstract class AuthenticatedWebTestCase extends ApiTestCase
                 'id' => $user->getUserIdentifier(),
                 'roles' => $user->getRoles(),
                 'username' => 'admin',
-            ]
+            ],
         );
     }
 
