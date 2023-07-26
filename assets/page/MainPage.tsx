@@ -6,9 +6,7 @@ export const MainPage = () => {
         <BasePage>
             <Container>
                 <Paper elevation={0} variant="outlined" square sx={{marginTop: '10px', padding: '5px'}}>
-                    <Paper elevation={0} variant="outlined" square sx={{marginTop: '10px', padding: '5px'}}>
-                        TEST
-                    </Paper>
+                    TEST
                 </Paper>
             </Container>
         </BasePage>

@@ -27,7 +27,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(provider: FilmCollectionProvider::class),
         new Post(security: "is_granted('ROLE_CREATE_FILMS')", input: FilmCreateDto::class, processor: CreateFilmProcessor::class),
     ],
-    output: FilmOutputDto::class
+    output: FilmOutputDto::class,
+    order: ['name' => 'ASC'],
 )]
 #[UniqueEntity(fields: ['name'])]
 class Film

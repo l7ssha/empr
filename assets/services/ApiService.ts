@@ -1,6 +1,6 @@
 import axios from './axios';
 import {AxiosError, AxiosResponse} from "axios";
-import {Method} from "axios/index";
+import {Method} from "axios";
 import {useUser} from "./auth/useUser";
 
 export interface LoginResponse {
@@ -8,9 +8,13 @@ export interface LoginResponse {
     refreshToken: string,
 }
 
+export type FilmType = 'bw' | 'color_negative' | 'color_positive';
+
 export interface FilmResponse {
     id: string,
     name: string,
+    type: FilmType,
+    speed: number,
 }
 
 export class ApiService {

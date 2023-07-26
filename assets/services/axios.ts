@@ -1,6 +1,5 @@
 import Axios from "axios";
 import { API_SERVER } from "./constants";
-import {useUser} from "./auth/useUser";
 import {useAuth} from "./auth/useAuth";
 
 const axios = Axios.create({
@@ -25,8 +24,9 @@ axios.interceptors.response.use(
 
             try {
                 const {refreshToken} = useAuth();
-                await refreshToken();
+                const newToken = await refreshToken();
 
+                config.headers['Authorization'] = 'Bearer ' + newToken;
                 return axios(config);
             } catch (e) {
                 return Promise.reject(error);
