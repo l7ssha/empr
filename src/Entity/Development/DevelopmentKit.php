@@ -22,6 +22,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Uid\UuidV6;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -35,6 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     output: DevelopmentKitOutputDto::class,
 )]
+#[UniqueEntity(fields: ['name'])]
 class DevelopmentKit
 {
     #[Id]

@@ -50,4 +50,4 @@ return (new PhpCsFixer\Config())
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)
-    ;
+;

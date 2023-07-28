@@ -9,12 +9,12 @@ use App\Entity\Development\FilmDevelopment;
 use App\Mapper\Film\FilmMapper;
 use App\Mapper\UserMapper;
 
-class FilmDevelopmentMapper
+readonly class FilmDevelopmentMapper
 {
     public function __construct(
-        public DevelopmentKitMapper $developmentKitMapper,
-        public FilmMapper $filmMapper,
-        public UserMapper $userMapper,
+        private DevelopmentKitMapper $developmentKitMapper,
+        private FilmMapper $filmMapper,
+        private UserMapper $userMapper,
     ) {
     }
 

@@ -7,10 +7,12 @@ namespace App\Entity\Development;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use App\Dto\Development\FilmDevelopment\FilmDevelopmentCreateDto;
 use App\Dto\Development\FilmDevelopment\FilmDevelopmentOutputDto;
 use App\Entity\Customer;
 use App\Entity\Film\Film;
 use App\Entity\User\User;
+use App\State\Processor\CreateFilmDevelopmentProcessor;
 use App\State\Provider\Development\FilmDevelopment\FilmDevelopmentCollectionProvider;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -28,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new GetCollection(provider: FilmDevelopmentCollectionProvider::class),
-        //        new Post(security: "is_granted('ROLE_CREATE_FILMS')", input: FilmCreateDto::class, processor: CreateFilmProcessor::class),
+        new Post(input: FilmDevelopmentCreateDto::class, processor: CreateFilmDevelopmentProcessor::class), // TODO: create roles for this action
     ],
     output: FilmDevelopmentOutputDto::class,
 )]
@@ -58,7 +60,7 @@ class FilmDevelopment
     #[ManyToOne]
     private ?Customer $customer = null;
 
-    #[Column(type: 'text', length: 16384)]
+    #[Column(type: 'text', length: 16384, nullable: true)]
     private ?string $notes = null;
 
     public function __construct(?string $id = null)
