@@ -12,60 +12,67 @@ use Symfony\Component\Validator\Constraints as Assert;
 class DevelopmentKitTimes
 {
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $firstDeveloperTime = null;
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $firstDeveloperMultiplier = null;
 
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $reversalTime = null;
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $reversalMultiplier = null;
 
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $colorDeveloperTime = null;
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $colorDeveloperMultiplier = null;
 
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $preBleachTime = null;
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $preBleachMultiplier = null;
 
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $bleachTime = null;
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $bleachMultiplier = null;
 
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $fixerTime = null;
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $fixerMultiplier = null;
 
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $clearingTime = null;
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $clearingMultiplier = null;
 
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $secondDeveloperTime = null;
     #[Assert\PositiveOrZero]
-    #[Column(scale: 2)]
+    #[Column(scale: 2, nullable: true)]
     private ?float $secondDeveloperMultiplier = null;
+
+    #[Assert\PositiveOrZero]
+    #[Column(scale: 2, nullable: true)]
+    private ?float $blixTime = null;
+    #[Assert\PositiveOrZero]
+    #[Column(scale: 2, nullable: true)]
+    private ?float $blixMultiplier = null;
 
     public function getFirstDeveloperTime(): ?float
     {
@@ -255,6 +262,30 @@ class DevelopmentKitTimes
     public function setSecondDeveloperMultiplier(?float $secondDeveloperMultiplier): self
     {
         $this->secondDeveloperMultiplier = $secondDeveloperMultiplier;
+
+        return $this;
+    }
+
+    public function getBlixTime(): ?float
+    {
+        return $this->blixTime;
+    }
+
+    public function setBlixTime(?float $blixTime): self
+    {
+        $this->blixTime = $blixTime;
+
+        return $this;
+    }
+
+    public function getBlixMultiplier(): ?float
+    {
+        return $this->blixMultiplier;
+    }
+
+    public function setBlixMultiplier(?float $blixMultiplier): self
+    {
+        $this->blixMultiplier = $blixMultiplier;
 
         return $this;
     }

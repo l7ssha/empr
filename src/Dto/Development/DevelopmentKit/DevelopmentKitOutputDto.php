@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dto\Development;
+namespace App\Dto\Development\DevelopmentKit;
 
 class DevelopmentKitOutputDto
 {
@@ -11,7 +11,7 @@ class DevelopmentKitOutputDto
         public string $name,
         public string $type,
         public int $developmentsCount,
-        public DevelopmentTimesOutputDto $times,
+        public DevelopmentTimesDto $times,
     ) {
     }
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Dto\Development;
+namespace App\Dto\Development\DevelopmentKit;
 
-class DevelopmentTimesOutputDto
+class DevelopmentTimesDto
 {
     public ?float $firstDeveloperTime = null;
     public ?float $firstDeveloperMultiplier = null;
@@ -16,6 +16,8 @@ class DevelopmentTimesOutputDto
     public ?float $preBleachMultiplier = null;
     public ?float $bleachTime = null;
     public ?float $bleachMultiplier = null;
+    public ?float $blixTime = null;
+    public ?float $blixMultiplier = null;
     public ?float $fixerTime = null;
     public ?float $fixerMultiplier = null;
     public ?float $clearingTime = null;

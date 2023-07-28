@@ -7,8 +7,11 @@ namespace App\Entity\Development;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\Dto\Development\DevelopmentKitOutputDto;
+use ApiPlatform\Metadata\Post;
+use App\Dto\Development\DevelopmentKit\DevelopmentKitCreateDto;
+use App\Dto\Development\DevelopmentKit\DevelopmentKitOutputDto;
 use App\Enum\DevelopmentType;
+use App\State\Processor\CreateDevelopmentKitProcessor;
 use App\State\Provider\Development\DevelopmentKit\DevelopmentKitCollectionProvider;
 use App\State\Provider\Development\DevelopmentKit\DevelopmentKitProvider;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,6 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(provider: DevelopmentKitProvider::class),
         new GetCollection(provider: DevelopmentKitCollectionProvider::class),
+        new Post(input: DevelopmentKitCreateDto::class, processor: CreateDevelopmentKitProcessor::class),
     ],
     output: DevelopmentKitOutputDto::class,
 )]
@@ -38,12 +42,12 @@ class DevelopmentKit
     #[Assert\Uuid]
     private readonly string $id;
 
-    #[Column(length: 128, unique: true)]
+    #[Column(length: 128, unique: true, updatable: false)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 128)]
     private readonly string $name;
 
-    #[Column(type: 'string', enumType: DevelopmentType::class)]
+    #[Column(type: 'string', updatable: false, enumType: DevelopmentType::class)]
     #[Assert\Type(type: DevelopmentType::class)]
     private DevelopmentType $type;
 

@@ -13,9 +13,9 @@ readonly class FilmRepository
     {
     }
 
-    public function save(Film $user, bool $flush = false): void
+    public function save(Film $film, bool $flush = false): void
     {
-        $this->manager->getManager()->persist($user);
+        $this->manager->getManager()->persist($film);
 
         if ($flush) {
             $this->manager->getManager()->flush();

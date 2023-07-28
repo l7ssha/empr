@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Mapper\Development;
 
-use App\Dto\Development\DevelopmentKitOutputDto;
-use App\Dto\Development\DevelopmentTimesOutputDto;
+use App\Dto\Development\DevelopmentKit\DevelopmentKitMinimalOutputDto;
+use App\Dto\Development\DevelopmentKit\DevelopmentKitOutputDto;
+use App\Dto\Development\DevelopmentKit\DevelopmentTimesDto;
 use App\Entity\Development\DevelopmentKit;
 use App\Entity\Development\DevelopmentKitTimes;
 
@@ -22,9 +23,9 @@ class DevelopmentKitMapper
         );
     }
 
-    public function mapDevelopmentKitTimesToOutputDto(DevelopmentKitTimes $times): DevelopmentTimesOutputDto
+    public function mapDevelopmentKitTimesToOutputDto(DevelopmentKitTimes $times): DevelopmentTimesDto
     {
-        $dto = new DevelopmentTimesOutputDto();
+        $dto = new DevelopmentTimesDto();
 
         $dto->firstDeveloperTime = $times->getFirstDeveloperTime();
         $dto->firstDeveloperMultiplier = $times->getFirstDeveloperMultiplier();
@@ -44,6 +45,9 @@ class DevelopmentKitMapper
         $dto->fixerTime = $times->getFixerTime();
         $dto->fixerMultiplier = $times->getFixerMultiplier();
 
+        $dto->blixTime = $times->getBlixTime();
+        $dto->blixMultiplier = $times->getBlixMultiplier();
+
         $dto->clearingTime = $times->getClearingTime();
         $dto->clearingMultiplier = $times->getClearingMultiplier();
 
@@ -51,5 +55,13 @@ class DevelopmentKitMapper
         $dto->secondDeveloperMultiplier = $times->getSecondDeveloperMultiplier();
 
         return $dto;
+    }
+
+    public function mapDevelopmentKitToMinimalOutputDto(DevelopmentKit $kit): DevelopmentKitMinimalOutputDto
+    {
+        return new DevelopmentKitMinimalOutputDto(
+            $kit->getId(),
+            $kit->getName(),
+        );
     }
 }

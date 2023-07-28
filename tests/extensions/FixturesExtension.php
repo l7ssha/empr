@@ -14,9 +14,6 @@ class FixturesExtension implements BeforeFirstTestHook
 
     private static Kernel $kernel;
 
-    private readonly string $appEnv;
-    private readonly bool $debug;
-
     public function __construct(string $appEnv = 'test', bool $debug = true, bool $append = false)
     {
         self::$kernel = new Kernel($appEnv, $debug);

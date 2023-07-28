@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Mapper;
 
+use App\Dto\UserMinimalOutputDto;
 use App\Dto\UserOutputDto;
 use App\Entity\User\Role;
 use App\Entity\User\User;
@@ -28,5 +29,13 @@ class UserMapper
         )->toArray();
 
         return $dto;
+    }
+
+    public function mapUserToMinimalOutputDto(User $user): UserMinimalOutputDto
+    {
+        return new UserMinimalOutputDto(
+            $user->getId(),
+            $user->getUsername(),
+        );
     }
 }

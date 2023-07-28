@@ -9,9 +9,9 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 
-class UserRepository
+readonly class UserRepository
 {
-    public function __construct(private readonly ManagerRegistry $manager)
+    public function __construct(private ManagerRegistry $manager)
     {
     }
 
