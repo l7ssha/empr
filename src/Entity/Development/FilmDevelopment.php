@@ -14,6 +14,7 @@ use App\Entity\Film\Film;
 use App\Entity\User\User;
 use App\State\Processor\CreateFilmDevelopmentProcessor;
 use App\State\Provider\Development\FilmDevelopment\FilmDevelopmentCollectionProvider;
+use App\Validator\ValidOneShotDeveloper;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
@@ -34,6 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     output: FilmDevelopmentOutputDto::class,
 )]
+#[ValidOneShotDeveloper]
 class FilmDevelopment
 {
     #[Id]
@@ -62,6 +64,10 @@ class FilmDevelopment
 
     #[Column(type: 'text', length: 16384, nullable: true)]
     private ?string $notes = null;
+
+    #[Column(nullable: true)]
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $dilution = null;
 
     public function __construct(?string $id = null)
     {
@@ -141,6 +147,18 @@ class FilmDevelopment
     public function setNotes(?string $notes): self
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    public function getDilution(): ?string
+    {
+        return $this->dilution;
+    }
+
+    public function setDilution(?string $dilution): self
+    {
+        $this->dilution = $dilution;
 
         return $this;
     }

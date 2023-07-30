@@ -33,6 +33,7 @@ class ValidDevelopmentTimesValidator extends ConstraintValidator
             DevelopmentType::COLOR_NEGATIVE_2STEP => $this->validateColorNegative2step($value->developmentTimes),
             DevelopmentType::COLOR_POSITIVE_3STEP => $this->validateColorPositive3step($value->developmentTimes),
             DevelopmentType::COLOR_POSITIVE_6STEP => $this->validateColorPositive6step($value->developmentTimes),
+            DevelopmentType::BW_ONE_SHOT => $this->validateBwOneShot($value->developmentTimes),
         };
 
         if (!$valid) {
@@ -100,6 +101,12 @@ class ValidDevelopmentTimesValidator extends ConstraintValidator
     {
         return $this->validateColorNegative2step($developmentTimes)
             && $developmentTimes->firstDeveloperTime !== null
+            && $developmentTimes->firstDeveloperMultiplier !== null;
+    }
+
+    private function validateBwOneShot(DevelopmentTimesDto $developmentTimes): bool
+    {
+        return $developmentTimes->firstDeveloperTime !== null
             && $developmentTimes->firstDeveloperMultiplier !== null;
     }
 }

@@ -13,6 +13,9 @@ use Doctrine\Persistence\ObjectRepository;
  */
 readonly class AbstractRepository
 {
+    /**
+     * @param class-string<T> $objectClass
+     */
     public function __construct(private ManagerRegistry $manager, protected string $objectClass)
     {
     }

@@ -6,6 +6,10 @@ help:
 cs-fix: ## Run cs-fixer
 	docker compose run app vendor/bin/php-cs-fixer fix --show-progress=dots --allow-risky=yes
 
+.PHONY: phpstan
+phpstan: ## Run phpstan
+	docker compose run app vendor/bin/phpstan
+
 .PHONY: cs-fix-check
 cs-fix-check: ## Run cs-fixer
 	docker compose run app vendor/bin/php-cs-fixer fix --show-progress=dots --allow-risky=yes --dry-run
