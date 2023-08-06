@@ -21,6 +21,14 @@ readonly class AbstractRepository
     }
 
     /**
+     * @return T[]
+     */
+    public function findAll(): array
+    {
+        return $this->getRepository()->findAll();
+    }
+
+    /**
      * @return T|null
      */
     public function findById(string $id): ?object
@@ -43,7 +51,7 @@ readonly class AbstractRepository
     /**
      * @return EntityRepository<T>
      */
-    public function getRepository(): ObjectRepository
+    protected function getRepository(): ObjectRepository
     {
         return $this->manager->getRepository($this->objectClass);
     }

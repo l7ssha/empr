@@ -5,7 +5,7 @@ api_platform:
 
   formats:
     json:
-      mime_types: [ 'application/json' ]
+      mime_types: [ 'application/json']
     jsonld:
       mime_types: [ 'application/ld+json' ]
 

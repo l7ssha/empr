@@ -10,7 +10,9 @@ use ApiPlatform\Validator\ValidatorInterface;
 use App\Dto\Development\FilmDevelopment\FilmDevelopmentCreateDto;
 use App\Dto\Development\FilmDevelopment\FilmDevelopmentOutputDto;
 use App\Entity\Development\FilmDevelopment;
+use App\Entity\Development\OneShotDevelopment;
 use App\Mapper\Development\FilmDevelopmentMapper;
+use App\Repository\DeveloperRepository;
 use App\Repository\DevelopmentKitRepository;
 use App\Repository\FilmDevelopmentRepository;
 use App\Repository\FilmRepository;
@@ -25,6 +27,7 @@ readonly class CreateFilmDevelopmentProcessor implements ProcessorInterface
         private DevelopmentKitRepository $developmentKitRepository,
         private FilmRepository $filmRepository,
         private UserStorage $userStorage,
+        private DeveloperRepository $developerRepository,
     ) {
     }
 
@@ -33,17 +36,29 @@ readonly class CreateFilmDevelopmentProcessor implements ProcessorInterface
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): FilmDevelopmentOutputDto
     {
-        $kit = $this->developmentKitRepository->findById($data->kit->id);
         $film = $this->filmRepository->findById($data->film->id);
 
         $filmDevelopment = new FilmDevelopment();
         $filmDevelopment
             ->setFilm($film)
-            ->setKit($kit)
             ->setNotes($data->notes)
             ->setDevelopmentNumber($data->developmentNumber)
             ->setCreatedBy($this->userStorage->getCurrentUser())
         ;
+
+        if ($data->kit !== null) {
+            $kit = $this->developmentKitRepository->findById($data->kit->id);
+            $filmDevelopment->setKit($kit);
+        } elseif ($data->developer !== null) {
+            $developer = $this->developerRepository->findById($data->developer->id);
+
+            $oneShotDevelopment = (new OneShotDevelopment())
+                ->setDeveloper($developer)
+                ->setDilution($data->developer->dilution)
+            ;
+
+            $filmDevelopment->setOneShotDevelopment($oneShotDevelopment);
+        }
 
         $this->validator->validate($filmDevelopment);
         $this->filmDevelopmentRepository->save($filmDevelopment, true);

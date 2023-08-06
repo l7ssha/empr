@@ -8,12 +8,15 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Dto\Development\DevelopmentKit\DevelopmentKitCreateDto;
 use App\Dto\Development\DevelopmentKit\DevelopmentKitOutputDto;
 use App\Enum\DevelopmentType;
+use App\State\Controller\IncrementDevelopmentKitController;
 use App\State\Processor\CreateDevelopmentKitProcessor;
 use App\State\Provider\Development\DevelopmentKit\DevelopmentKitCollectionProvider;
 use App\State\Provider\Development\DevelopmentKit\DevelopmentKitProvider;
+use App\State\Provider\GetDeveloperKitTimesProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -33,6 +36,15 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(provider: DevelopmentKitProvider::class),
         new GetCollection(provider: DevelopmentKitCollectionProvider::class),
         new Post(input: DevelopmentKitCreateDto::class, processor: CreateDevelopmentKitProcessor::class),
+        new Put(
+            uriTemplate: '/development_kits/{id}/increment_untracked',
+            controller: IncrementDevelopmentKitController::class,
+            input: false,
+            output: false,
+            read: false,
+            write: false,
+        ),
+        new Get(uriTemplate: '/development_kits/{id}/times', provider: GetDeveloperKitTimesProvider::class),
     ],
     output: DevelopmentKitOutputDto::class,
 )]
@@ -123,13 +135,6 @@ class DevelopmentKit
     public function setUntrackedDevelopments(int $untrackedDevelopments): self
     {
         $this->untrackedDevelopments = $untrackedDevelopments;
-
-        return $this;
-    }
-
-    public function incrementUntrackedDevelopments(int $toIncrement = 1): self
-    {
-        $this->untrackedDevelopments += $toIncrement;
 
         return $this;
     }

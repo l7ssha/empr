@@ -48,8 +48,8 @@ function ResponsiveAppBar() {
                         EMPR
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        <MenuItem key='development' onClick={() => navigate("/development")}>
-                            <Typography textAlign="center">development</Typography>
+                        <MenuItem key='development kits' onClick={() => navigate("/development-kits")}>
+                            <Typography textAlign="center">development kits</Typography>
                         </MenuItem>
 
                         <MenuItem key='films' onClick={() => navigate("/films")}>

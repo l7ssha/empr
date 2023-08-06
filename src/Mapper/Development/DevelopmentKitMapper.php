@@ -9,16 +9,21 @@ use App\Dto\Development\DevelopmentKit\DevelopmentKitOutputDto;
 use App\Dto\Development\DevelopmentKit\DevelopmentTimesDto;
 use App\Entity\Development\DevelopmentKit;
 use App\Entity\Development\DevelopmentKitTimes;
+use App\Service\DevelopmentCalculator;
 
-class DevelopmentKitMapper
+readonly class DevelopmentKitMapper
 {
+    public function __construct(private DevelopmentCalculator $developmentCalculator)
+    {
+    }
+
     public function mapDevelopmentKitToOutputDto(DevelopmentKit $kit): DevelopmentKitOutputDto
     {
         return new DevelopmentKitOutputDto(
             $kit->getId(),
             $kit->getName(),
             $kit->getType()->value,
-            $kit->getUntrackedDevelopments() + $kit->getDevelopments()->count(), // TODO: move to service or provider of some sort
+            $this->developmentCalculator->getTotalDevelopmentCount($kit),
             $this->mapDevelopmentKitTimesToOutputDto($kit->getDevelopmentTimes()),
         );
     }

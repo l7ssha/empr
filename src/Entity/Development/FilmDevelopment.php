@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Development;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -14,12 +16,12 @@ use App\Entity\Film\Film;
 use App\Entity\User\User;
 use App\State\Processor\CreateFilmDevelopmentProcessor;
 use App\State\Provider\Development\FilmDevelopment\FilmDevelopmentCollectionProvider;
-use App\Validator\ValidOneShotDeveloper;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Uid\UuidV6;
@@ -34,8 +36,22 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(input: FilmDevelopmentCreateDto::class, processor: CreateFilmDevelopmentProcessor::class), // TODO: create roles for this action
     ],
     output: FilmDevelopmentOutputDto::class,
+    order: ['developmentNumber' => 'DESC'],
 )]
-#[ValidOneShotDeveloper]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'developmentNumber' => 'ipartial',
+        'kit.name' => 'ipartial',
+        'kit.id' => 'exact',
+        'film.name' => 'ipartial',
+        'film.id' => 'exact',
+        'user.id' => 'exact',
+        'oneShotDevelopment.developer.id' => 'exact',
+        'oneShotDevelopment.developer.name' => 'ipartial',
+        // TODO: Add customer to filters
+    ],
+)]
 class FilmDevelopment
 {
     #[Id]
@@ -48,8 +64,12 @@ class FilmDevelopment
     private string $developmentNumber;
 
     #[ManyToOne(inversedBy: 'developments')]
-    #[JoinColumn(nullable: false)]
-    private DevelopmentKit $kit;
+    #[JoinColumn(nullable: true)]
+    private ?DevelopmentKit $kit = null;
+
+    #[OneToOne(mappedBy: 'development', cascade: ['persist', 'remove'])]
+    #[JoinColumn(nullable: true)]
+    private ?OneShotDevelopment $oneShotDevelopment = null;
 
     #[ManyToOne]
     #[JoinColumn(nullable: false)]
@@ -64,10 +84,6 @@ class FilmDevelopment
 
     #[Column(type: 'text', length: 16384, nullable: true)]
     private ?string $notes = null;
-
-    #[Column(nullable: true)]
-    #[Assert\NotBlank(allowNull: true)]
-    private ?string $dilution = null;
 
     public function __construct(?string $id = null)
     {
@@ -91,7 +107,7 @@ class FilmDevelopment
         return $this;
     }
 
-    public function getKit(): DevelopmentKit
+    public function getKit(): ?DevelopmentKit
     {
         return $this->kit;
     }
@@ -151,14 +167,15 @@ class FilmDevelopment
         return $this;
     }
 
-    public function getDilution(): ?string
+    public function getOneShotDevelopment(): ?OneShotDevelopment
     {
-        return $this->dilution;
+        return $this->oneShotDevelopment;
     }
 
-    public function setDilution(?string $dilution): self
+    public function setOneShotDevelopment(OneShotDevelopment $oneShotDevelopment): self
     {
-        $this->dilution = $dilution;
+        $this->oneShotDevelopment = $oneShotDevelopment;
+        $oneShotDevelopment->setDevelopment($this);
 
         return $this;
     }

@@ -11,6 +11,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import {MainPage} from "./page/MainPage";
 import {FilmsPage} from "./page/FilmsPage";
+import {DevelopmentKitsPage} from "./page/DevelopmentKitsPage";
 
 const App = () => {
     return (
@@ -19,6 +20,7 @@ const App = () => {
                 <Route path='/login' element={<LoginPage />}/>
 
                 <Route path='/films' element={<ProtectedRoute><FilmsPage /></ProtectedRoute>} />
+                <Route path='/development-kits' element={<ProtectedRoute><DevelopmentKitsPage /></ProtectedRoute>} />
 
                 <Route path='/' element={<ProtectedRoute><MainPage /></ProtectedRoute>} />
             </Routes>

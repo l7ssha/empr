@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export const useLocalStorage = () => {
     const setItem = (key: string, value: string) => {
         localStorage.setItem(key, value);

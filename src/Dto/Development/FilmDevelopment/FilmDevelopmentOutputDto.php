@@ -13,10 +13,11 @@ class FilmDevelopmentOutputDto
     public function __construct(
         public string $id,
         public string $developmentNumber,
-        public DevelopmentKitMinimalOutputDto $developmentKit,
         public FilmOutputDto $film,
         public UserMinimalOutputDto $createdBy,
         public string $notes,
+        public ?DevelopmentKitMinimalOutputDto $developmentKit = null,
+        public ?DeveloperFilmDevelopmentOutputDto $developer = null,
         // TODO: implement customer output
     ) {
     }

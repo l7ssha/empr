@@ -12,13 +12,18 @@ class FilmDevelopmentCreateDto
 {
     #[Assert\NotBlank]
     public string $developmentNumber;
+
     #[Assert\Valid]
-    public DevelopmentKitIdDto $kit;
+    public ?DevelopmentKitIdDto $kit = null;
+
+    #[Assert\Valid]
+    public ?DeveloperFilmDevelopmentDto $developer = null;
+
     #[Assert\Valid]
     public FilmIdDto $film;
+
     #[Assert\NotBlank(allowNull: true)]
     public ?string $notes = null;
+
     // TODO: customer id
-    #[Assert\NotBlank(allowNull: true)]
-    public ?string $dilution = null;
 }
