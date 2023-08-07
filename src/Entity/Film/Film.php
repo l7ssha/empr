@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Film;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -31,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     order: ['name' => 'ASC'],
 )]
 #[UniqueEntity(fields: ['name'])]
+#[ApiFilter(OrderFilter::class, properties: ['speed', 'name', 'type'])]
 class Film
 {
     #[Id]

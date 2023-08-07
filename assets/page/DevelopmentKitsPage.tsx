@@ -7,7 +7,7 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
-import { usePagination } from "../services/usePagination";
+import { usePaginatedDataQuery } from "../services/usePaginatedDataQuery";
 
 function GridToolbar() {
   return (
@@ -18,8 +18,15 @@ function GridToolbar() {
 }
 
 export const DevelopmentKitsPage = () => {
-  const { result, totalRowCount, paginationModel, setPaginationModel } =
-    usePagination((pagination) => apiService.getAllDevelopmentKits(pagination));
+  const {
+    result,
+    totalRowCount,
+    paginationModel,
+    setPaginationModel,
+    handleSortModeChange,
+  } = usePaginatedDataQuery((pagination, sortModel) =>
+    apiService.getAllDevelopmentKits(pagination, sortModel),
+  );
 
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", width: 250 },
@@ -44,7 +51,9 @@ export const DevelopmentKitsPage = () => {
             onPaginationModelChange={setPaginationModel}
             rowCount={totalRowCount}
             paginationMode="server"
+            sortingMode="server"
             pageSizeOptions={[5, 10, 25]}
+            onSortModelChange={handleSortModeChange}
           />
         </TableContainer>
       </Paper>

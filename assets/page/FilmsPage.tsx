@@ -11,13 +11,25 @@ import { BasePage } from "./BasePage";
 import apiService, { FilmResponse } from "../services/ApiService";
 import { useEffect, useState } from "react";
 import { mapFilmType } from "../services/ReadableStringMapper";
+import { usePaginatedDataQuery } from "../services/usePaginatedDataQuery";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 
 export const FilmsPage = () => {
-  const [films, setFilms] = useState<FilmResponse[]>([]);
+  const {
+    result,
+    totalRowCount,
+    paginationModel,
+    setPaginationModel,
+    handleSortModeChange,
+  } = usePaginatedDataQuery<FilmResponse>((pagination, sortModel) =>
+    apiService.getAllFilms(pagination, sortModel),
+  );
 
-  useEffect(() => {
-    apiService.getAllFilms().then((result) => setFilms(result));
-  }, []);
+  const columns: GridColDef[] = [
+    { field: "name", headerName: "Name", width: 250 },
+    { field: "type", headerName: "Type", width: 150 },
+    { field: "speed", headerName: "Speed (ISO/ASA)", width: 150 },
+  ];
 
   return (
     <BasePage>
@@ -28,27 +40,17 @@ export const FilmsPage = () => {
         sx={{ marginTop: "10px", padding: "5px" }}
       >
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="left">Type</TableCell>
-                <TableCell align="left">Speed (ISO/ASA)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {films.map((row) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="left">{mapFilmType(row.type)}</TableCell>
-                  <TableCell align="left">{row.speed}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <DataGrid
+            columns={columns}
+            rows={result}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            rowCount={totalRowCount}
+            paginationMode="server"
+            pageSizeOptions={[5, 10, 25]}
+            sortingMode="server"
+            onSortModelChange={handleSortModeChange}
+          />
         </TableContainer>
       </Paper>
     </BasePage>

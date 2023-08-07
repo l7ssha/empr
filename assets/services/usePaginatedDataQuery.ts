@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PaginatedResponse } from "./ApiService";
 import { GridPaginationModel } from "@mui/x-data-grid/models/gridPaginationProps";
 import { GridCallbackDetails } from "@mui/x-data-grid/models/api";
+import { GridSortModel } from "@mui/x-data-grid";
 
 export interface usePaginationInterface<T> {
   result: T[];
@@ -11,6 +12,7 @@ export interface usePaginationInterface<T> {
     model: GridPaginationModel,
     details: GridCallbackDetails,
   ) => void;
+  handleSortModeChange: SetHandleSortModelChange;
 }
 
 export interface PaginationModel {
@@ -20,26 +22,38 @@ export interface PaginationModel {
 
 export type GetResultCallback<T> = (
   pagination: PaginationModel,
+  sortModel: GridSortModel | null,
 ) => Promise<PaginatedResponse<T>>;
 
-export function usePagination<T>(
+export type SetHandleSortModelChange = (sortModel: GridSortModel) => void;
+
+export function usePaginatedDataQuery<T>(
   callback: GetResultCallback<T>,
 ): usePaginationInterface<T> {
   const [result, setResult] = useState<T[]>([]);
   const [totalRowCount, setTotalRowCount] = useState(0);
   const [paginationModel, setPaginationModel] = useState<PaginationModel>({
     pageSize: 5,
-    page: 1,
+    page: 0,
   });
+  const [sortModel, setSortModel] = useState<GridSortModel | null>(null);
   const [previousPaginationModel, setPreviousPaginationModel] =
     useState<PaginationModel>({ page: -1, pageSize: -1 });
 
-  useMemo(() => {
-    // TODO: These two ifs are hacks. Dont know how to fix those
-    if (paginationModel.page === 0) {
-      paginationModel.page = 1;
-    }
+  const performDataQuery = () => {
+    callback(paginationModel, sortModel).then((result) => {
+      setTotalRowCount(result.total);
+      setResult(result.results);
+      setPreviousPaginationModel(paginationModel);
+    });
+  };
 
+  useEffect(() => {
+    performDataQuery();
+  }, [sortModel]);
+
+  useEffect(() => {
+    // TODO: These two ifs are hacks. Dont know how to fix those
     if (
       previousPaginationModel.page === paginationModel.page &&
       previousPaginationModel.pageSize === paginationModel.pageSize
@@ -47,11 +61,7 @@ export function usePagination<T>(
       return;
     }
 
-    callback(paginationModel).then((result) => {
-      setTotalRowCount(result.total);
-      setResult(result.results);
-      setPreviousPaginationModel(paginationModel);
-    });
+    performDataQuery();
   }, [paginationModel.page, paginationModel.pageSize]);
 
   return {
@@ -59,5 +69,6 @@ export function usePagination<T>(
     totalRowCount: totalRowCount,
     paginationModel: paginationModel,
     setPaginationModel: setPaginationModel,
+    handleSortModeChange: (sortModel) => setSortModel(sortModel),
   };
 }

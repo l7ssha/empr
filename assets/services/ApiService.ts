@@ -2,7 +2,8 @@ import axios from "./axios";
 import { AxiosError, AxiosResponse } from "axios";
 import { Method } from "axios";
 import { useUser } from "./auth/useUser";
-import { PaginationModel } from "./usePagination";
+import { PaginationModel } from "./usePaginatedDataQuery";
+import { GridSortModel } from "@mui/x-data-grid";
 
 export interface LoginResponse {
   token: string;
@@ -49,6 +50,7 @@ interface ExecuteSafePaginatedParameters<S> {
   useAuth?: boolean;
   page?: number;
   perPage?: number;
+  sort?: GridSortModel;
 }
 
 export class ApiService {
@@ -79,19 +81,29 @@ export class ApiService {
     return data;
   }
 
-  public async getAllFilms() {
-    const { data } = await this.executeSafe<FilmResponse[]>("/api/films");
+  public async getAllFilms(
+    pagination: PaginationModel,
+    sortModel: GridSortModel | null,
+  ): Promise<PaginatedResponse<FilmResponse>> {
+    const { data } = await this.executeSafePaginated<FilmResponse>({
+      url: "/api/films",
+      page: pagination.page,
+      perPage: pagination.pageSize,
+      sort: sortModel,
+    });
 
     return data;
   }
 
   public async getAllDevelopmentKits(
     pagination: PaginationModel,
+    sortModel: GridSortModel | null,
   ): Promise<PaginatedResponse<DevelopmentKitResponse>> {
     const { data } = await this.executeSafePaginated<DevelopmentKitResponse>({
       url: "/api/development_kits",
       page: pagination.page,
       perPage: pagination.pageSize,
+      sort: sortModel,
     });
 
     return data;
@@ -102,8 +114,9 @@ export class ApiService {
     data = null,
     method = "GET",
     useAuth = true,
-    page = 1,
+    page = 0,
     perPage = 30,
+    sort = null,
   }: ExecuteSafePaginatedParameters<S>): Promise<
     AxiosResponse<PaginatedResponse<T>>
   > {
@@ -113,8 +126,9 @@ export class ApiService {
       method,
       useAuth,
       {
-        page: page,
+        page: page + 1,
         perPage: perPage,
+        ...this.makeSortQueryFromGridSortModel(sort),
       },
     );
   }
@@ -149,6 +163,19 @@ export class ApiService {
 
       throw new e();
     }
+  }
+
+  private makeSortQueryFromGridSortModel(sortModel: GridSortModel | null): any {
+    if (sortModel === null) {
+      return {};
+    }
+
+    const query = {};
+    for (const gridSortItem of sortModel) {
+      query[`order[${gridSortItem.field}]`] = gridSortItem.sort;
+    }
+
+    return query;
   }
 }
 
