@@ -1,5 +1,5 @@
 export const useLocalStorage = () => {
-  const setItem = (key: string, value: string) => {
+  const setItem = (key: string, value: string | null) => {
     localStorage.setItem(key, value);
   };
 

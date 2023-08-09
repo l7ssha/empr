@@ -1,9 +1,8 @@
-import axios from "./axios";
-import { AxiosError, AxiosResponse } from "axios";
-import { Method } from "axios";
-import { useUser } from "./auth/useUser";
-import { PaginationModel } from "./usePaginatedDataQuery";
 import { GridSortModel } from "@mui/x-data-grid";
+import { AxiosError, AxiosResponse, Method } from "axios";
+import { useUser } from "./auth/useUser";
+import axios from "./axios";
+import { PaginationModel } from "./usePaginatedDataQuery";
 
 export interface LoginResponse {
   token: string;

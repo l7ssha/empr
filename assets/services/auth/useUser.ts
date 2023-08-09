@@ -7,7 +7,7 @@ export interface User {
 }
 
 export const useUser = () => {
-  const { setItem, getItem } = useLocalStorage();
+  const { setItem, getItem, removeItem } = useLocalStorage();
 
   const setUser = (user: User) => {
     setItem("user", JSON.stringify(user));
@@ -22,7 +22,7 @@ export const useUser = () => {
   };
 
   const removeUser = () => {
-    setItem("user", "");
+    removeItem("user");
   };
 
   const getUser = (): User | null => {

@@ -1,19 +1,21 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../services/auth/useAuth";
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
@@ -25,6 +27,11 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const logoutAction = () => {
+    logout();
+    navigate("/login");
   };
 
   return (
@@ -86,6 +93,9 @@ function ResponsiveAppBar() {
             >
               <MenuItem key="setting" onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">setting</Typography>
+              </MenuItem>
+              <MenuItem key="logout" onClick={logoutAction}>
+                <Typography textAlign="center">log out</Typography>
               </MenuItem>
             </Menu>
           </Box>

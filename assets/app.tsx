@@ -9,9 +9,9 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { MainPage } from "./page/MainPage";
-import { FilmsPage } from "./page/FilmsPage";
 import { DevelopmentKitsPage } from "./page/DevelopmentKitsPage";
+import { FilmsPage } from "./page/FilmsPage";
+import { MainPage } from "./page/MainPage";
 
 const App = () => {
   return (

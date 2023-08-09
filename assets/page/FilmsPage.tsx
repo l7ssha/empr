@@ -1,18 +1,9 @@
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import { BasePage } from "./BasePage";
+import { Button, Paper, TableContainer } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import apiService, { FilmResponse } from "../services/ApiService";
-import { useEffect, useState } from "react";
 import { mapFilmType } from "../services/ReadableStringMapper";
 import { usePaginatedDataQuery } from "../services/usePaginatedDataQuery";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { BasePage } from "./BasePage";
 
 export const FilmsPage = () => {
   const {
@@ -26,9 +17,27 @@ export const FilmsPage = () => {
   );
 
   const columns: GridColDef[] = [
-    { field: "name", headerName: "Name", width: 250 },
-    { field: "type", headerName: "Type", width: 150 },
+    { field: "name", headerName: "Name", width: 350 },
+    {
+      field: "type",
+      headerName: "Type",
+      width: 150,
+      valueFormatter: (params) => mapFilmType(params.value),
+    },
     { field: "speed", headerName: "Speed (ISO/ASA)", width: 150 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      filterable: false,
+      hideable: false,
+      sortable: false,
+      disableColumnMenu: true,
+      headerAlign: "right",
+      align: "right",
+      renderCell: (params) => (
+        <Button onClick={() => console.log(params)}>Edit</Button>
+      ),
+    },
   ];
 
   return (

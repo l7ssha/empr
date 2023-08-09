@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
-import { PaginatedResponse } from "./ApiService";
-import { GridPaginationModel } from "@mui/x-data-grid/models/gridPaginationProps";
-import { GridCallbackDetails } from "@mui/x-data-grid/models/api";
 import { GridSortModel } from "@mui/x-data-grid";
+import { GridCallbackDetails } from "@mui/x-data-grid/models/api";
+import { GridPaginationModel } from "@mui/x-data-grid/models/gridPaginationProps";
+import { useEffect, useState } from "react";
+import { PaginatedResponse } from "./ApiService";
 
 export interface usePaginationInterface<T> {
   result: T[];

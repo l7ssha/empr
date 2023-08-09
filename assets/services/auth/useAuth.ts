@@ -1,5 +1,5 @@
-import { useUser } from "./useUser";
 import api from "../ApiService";
+import { useUser } from "./useUser";
 
 export const useAuth = () => {
   const { getUser, setUser, removeUser, updateUser } = useUser();

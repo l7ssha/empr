@@ -1,6 +1,9 @@
-import { useAuth } from "../services/auth/useAuth";
+import { Button, Container, Input } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
+import { Controller, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useAuth } from "../services/auth/useAuth";
 
 export const LoginPage = () => {
   let { isLoggedIn, login } = useAuth();
@@ -11,7 +14,7 @@ export const LoginPage = () => {
   const navigate = useNavigate();
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -21,14 +24,45 @@ export const LoginPage = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/*<input {...register("email", { required: true })} /!*label="email" variant="outlined" *!//>*/}
-        {/*<input {...register("password", { required: true })} /!*label="email" variant="outlined" *!/ />*/}
-        <input {...register("login", { required: true })} />
-        <input {...register("password", { required: true })} />
-        <input type="submit" />
-      </form>
-    </div>
+    <Grid
+      container
+      spacing={2}
+      justifyContent="center"
+      alignItems="center"
+      direction="column"
+    >
+      <Grid display="flex">
+        <h1>EMPR</h1>
+      </Grid>
+      <Grid display="flex">
+        <Container>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box>
+              <Controller
+                name="login"
+                rules={{ required: true }}
+                control={control}
+                render={({ field }) => (
+                  <Input placeholder="Username" {...field} />
+                )}
+              />
+            </Box>
+            <Box>
+              <Controller
+                name="password"
+                rules={{ required: true }}
+                control={control}
+                render={({ field }) => (
+                  <Input placeholder="Password" type="password" {...field} />
+                )}
+              />
+            </Box>
+            <Box>
+              <Button type="submit">Log in</Button>
+            </Box>
+          </form>
+        </Container>
+      </Grid>
+    </Grid>
   );
 };

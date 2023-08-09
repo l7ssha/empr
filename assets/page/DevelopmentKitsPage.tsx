@@ -1,13 +1,14 @@
 import { Paper, TableContainer } from "@mui/material";
-import { BasePage } from "./BasePage";
-import apiService from "../services/ApiService";
 import {
   DataGrid,
   GridColDef,
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
+import apiService from "../services/ApiService";
+import { mapDevelopmentType } from "../services/ReadableStringMapper";
 import { usePaginatedDataQuery } from "../services/usePaginatedDataQuery";
+import { BasePage } from "./BasePage";
 
 function GridToolbar() {
   return (
@@ -30,7 +31,12 @@ export const DevelopmentKitsPage = () => {
 
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", width: 250 },
-    { field: "type", headerName: "Type", width: 150 },
+    {
+      field: "type",
+      headerName: "Type",
+      width: 250,
+      valueFormatter: (params) => mapDevelopmentType(params.value),
+    },
     { field: "developmentsCount", headerName: "Development Count", width: 150 },
   ];
 
