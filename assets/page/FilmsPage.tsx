@@ -1,21 +1,11 @@
-import { Button, Paper, TableContainer } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import apiService, { FilmResponse } from "../services/ApiService";
+import { Button, Paper } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { SimpleDataGrid } from "../component/SimpleDataGrid";
+import apiService from "../services/ApiService";
 import { mapFilmType } from "../services/ReadableStringMapper";
-import { usePaginatedDataQuery } from "../services/usePaginatedDataQuery";
 import { BasePage } from "./BasePage";
 
 export const FilmsPage = () => {
-  const {
-    result,
-    totalRowCount,
-    paginationModel,
-    setPaginationModel,
-    handleSortModeChange,
-  } = usePaginatedDataQuery<FilmResponse>((pagination, sortModel) =>
-    apiService.getAllFilms(pagination, sortModel),
-  );
-
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", width: 350 },
     {
@@ -48,19 +38,12 @@ export const FilmsPage = () => {
         square
         sx={{ marginTop: "10px", padding: "5px" }}
       >
-        <TableContainer component={Paper}>
-          <DataGrid
-            columns={columns}
-            rows={result}
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
-            rowCount={totalRowCount}
-            paginationMode="server"
-            pageSizeOptions={[5, 10, 25]}
-            sortingMode="server"
-            onSortModelChange={handleSortModeChange}
-          />
-        </TableContainer>
+        <SimpleDataGrid
+          columns={columns}
+          callback={(pagination, sortModel) =>
+            apiService.getAllFilms(pagination, sortModel)
+          }
+        />
       </Paper>
     </BasePage>
   );

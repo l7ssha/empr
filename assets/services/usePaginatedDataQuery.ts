@@ -1,7 +1,7 @@
 import { GridSortModel } from "@mui/x-data-grid";
 import { GridCallbackDetails } from "@mui/x-data-grid/models/api";
 import { GridPaginationModel } from "@mui/x-data-grid/models/gridPaginationProps";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { PaginatedResponse } from "./ApiService";
 
 export interface usePaginationInterface<T> {
@@ -39,20 +39,29 @@ export function usePaginatedDataQuery<T>(
   const [sortModel, setSortModel] = useState<GridSortModel | null>(null);
   const [previousPaginationModel, setPreviousPaginationModel] =
     useState<PaginationModel>({ page: -1, pageSize: -1 });
+  const [previousSortModel, setPreviousSortModel] =
+    useState<GridSortModel | null>(null);
 
   const performDataQuery = () => {
     callback(paginationModel, sortModel).then((result) => {
       setTotalRowCount(result.total);
       setResult(result.results);
       setPreviousPaginationModel(paginationModel);
+      setPreviousSortModel(sortModel);
     });
   };
 
-  useEffect(() => {
+  useMemo(() => {
+    // TODO: These two ifs are hacks. Dont know how to fix those
+    if (sortModel == previousSortModel) {
+      return;
+    }
+
+    console.log("previousSortModel changed");
     performDataQuery();
   }, [sortModel]);
 
-  useEffect(() => {
+  useMemo(() => {
     // TODO: These two ifs are hacks. Dont know how to fix those
     if (
       previousPaginationModel.page === paginationModel.page &&

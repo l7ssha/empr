@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Controller, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
+import { InfoSpan } from "../component/info/InfoSpan";
 import { useAuth } from "../services/auth/useAuth";
 
 export const LoginPage = () => {
@@ -40,10 +41,15 @@ export const LoginPage = () => {
             <Box>
               <Controller
                 name="login"
-                rules={{ required: true }}
+                rules={{ required: true, minLength: 1 }}
                 control={control}
                 render={({ field }) => (
-                  <Input placeholder="Username" {...field} />
+                  <Box>
+                    <Input placeholder="Username" {...field} />
+                    {errors.login?.type === "required" && (
+                      <InfoSpan type="danger" message="Login is required!" />
+                    )}
+                  </Box>
                 )}
               />
             </Box>
@@ -53,7 +59,12 @@ export const LoginPage = () => {
                 rules={{ required: true }}
                 control={control}
                 render={({ field }) => (
-                  <Input placeholder="Password" type="password" {...field} />
+                  <Box>
+                    <Input placeholder="Password" type="password" {...field} />
+                    {errors.password?.type === "required" && (
+                      <InfoSpan type="danger" message="Password is required!" />
+                    )}
+                  </Box>
                 )}
               />
             </Box>

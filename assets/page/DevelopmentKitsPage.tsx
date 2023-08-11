@@ -1,13 +1,12 @@
-import { Paper, TableContainer } from "@mui/material";
+import { Paper } from "@mui/material";
 import {
-  DataGrid,
   GridColDef,
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
+import { SimpleDataGrid } from "../component/SimpleDataGrid";
 import apiService from "../services/ApiService";
 import { mapDevelopmentType } from "../services/ReadableStringMapper";
-import { usePaginatedDataQuery } from "../services/usePaginatedDataQuery";
 import { BasePage } from "./BasePage";
 
 function GridToolbar() {
@@ -19,16 +18,6 @@ function GridToolbar() {
 }
 
 export const DevelopmentKitsPage = () => {
-  const {
-    result,
-    totalRowCount,
-    paginationModel,
-    setPaginationModel,
-    handleSortModeChange,
-  } = usePaginatedDataQuery((pagination, sortModel) =>
-    apiService.getAllDevelopmentKits(pagination, sortModel),
-  );
-
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", width: 250 },
     {
@@ -48,20 +37,12 @@ export const DevelopmentKitsPage = () => {
         square
         sx={{ marginTop: "10px", padding: "5px" }}
       >
-        <TableContainer component={Paper}>
-          <DataGrid
-            columns={columns}
-            rows={result}
-            slots={{ toolbar: GridToolbar }}
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
-            rowCount={totalRowCount}
-            paginationMode="server"
-            sortingMode="server"
-            pageSizeOptions={[5, 10, 25]}
-            onSortModelChange={handleSortModeChange}
-          />
-        </TableContainer>
+        <SimpleDataGrid
+          columns={columns}
+          callback={(pagination, sortModel) =>
+            apiService.getAllDevelopmentKits(pagination, sortModel)
+          }
+        />
       </Paper>
     </BasePage>
   );

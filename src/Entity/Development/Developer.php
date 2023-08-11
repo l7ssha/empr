@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(output: DeveloperOutputDto::class, provider: DeveloperProvider::class),
         new GetCollection(output: DeveloperOutputDto::class, provider: DeveloperCollectionProvider::class),
-        new Post(input: CreateDeveloperInputDto::class, output: DeveloperOutputDto::class, processor: CreateDeveloperProcessor::class),
+        new Post(input: CreateDeveloperInputDto::class, output: DeveloperOutputDto::class, processor: CreateDeveloperProcessor::class), // TODO: Add permissions
     ],
 )]
 class Developer
