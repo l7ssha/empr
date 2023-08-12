@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Film;
 
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
@@ -34,6 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[UniqueEntity(fields: ['name'])]
 #[ApiFilter(OrderFilter::class, properties: ['speed', 'name', 'type'])]
+#[ApiFilter(SearchFilter::class, properties: ['name' => 'ipartial'])]
 class Film
 {
     #[Id]

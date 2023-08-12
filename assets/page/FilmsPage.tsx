@@ -12,9 +12,15 @@ export const FilmsPage = () => {
       field: "type",
       headerName: "Type",
       width: 150,
+      filterable: false,
       valueFormatter: (params) => mapFilmType(params.value),
     },
-    { field: "speed", headerName: "Speed (ISO/ASA)", width: 150 },
+    {
+      field: "speed",
+      headerName: "Speed (ISO/ASA)",
+      width: 150,
+      filterable: false,
+    },
     {
       field: "actions",
       headerName: "Actions",
@@ -40,8 +46,8 @@ export const FilmsPage = () => {
       >
         <SimpleDataGrid
           columns={columns}
-          callback={(pagination, sortModel) =>
-            apiService.getAllFilms(pagination, sortModel)
+          callback={(pagination, sortModel, filterModel) =>
+            apiService.getAllFilms(pagination, sortModel, filterModel)
           }
         />
       </Paper>

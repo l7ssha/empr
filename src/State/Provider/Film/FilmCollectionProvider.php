@@ -15,11 +15,11 @@ use App\Entity\Film\Film;
 use App\Mapper\Film\FilmMapper;
 use IteratorAggregate;
 
-class FilmCollectionProvider implements ProviderInterface
+readonly class FilmCollectionProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly CollectionProvider $collectionProvider,
-        private readonly FilmMapper $mapper,
+        private CollectionProvider $collectionProvider,
+        private FilmMapper $mapper,
     ) {
     }
 

@@ -20,22 +20,23 @@ export function SimpleDataGrid<T>({
     paginationModel,
     setPaginationModel,
     handleSortModeChange,
-  } = usePaginatedDataQuery((pagination, sortModel) =>
-    callback(pagination, sortModel),
-  );
+    handleFilterChange,
+  } = usePaginatedDataQuery(callback);
 
   return (
     <TableContainer component={Paper}>
       <DataGrid
         columns={columns}
         rows={result}
+        rowCount={totalRowCount}
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
-        rowCount={totalRowCount}
         paginationMode="server"
-        sortingMode="server"
         pageSizeOptions={[5, 10, 25]}
         onSortModelChange={handleSortModeChange}
+        sortingMode="server"
+        filterMode="server"
+        onFilterModelChange={handleFilterChange}
       />
     </TableContainer>
   );

@@ -1,4 +1,5 @@
 import { GridSortModel } from "@mui/x-data-grid";
+import { GridFilterModel } from "@mui/x-data-grid/models/gridFilterModel";
 import { AxiosError, AxiosResponse, Method } from "axios";
 import { useUser } from "./auth/useUser";
 import axios from "./axios";
@@ -50,6 +51,7 @@ interface ExecuteSafePaginatedParameters<S> {
   page?: number;
   perPage?: number;
   sort?: GridSortModel;
+  filter?: GridFilterModel;
 }
 
 export class ApiService {
@@ -83,12 +85,14 @@ export class ApiService {
   public async getAllFilms(
     pagination: PaginationModel,
     sortModel: GridSortModel | null,
+    filterModel: GridFilterModel | null,
   ): Promise<PaginatedResponse<FilmResponse>> {
     const { data } = await this.executeSafePaginated<FilmResponse>({
       url: "/api/films",
       page: pagination.page,
       perPage: pagination.pageSize,
       sort: sortModel,
+      filter: filterModel,
     });
 
     return data;
@@ -116,6 +120,7 @@ export class ApiService {
     page = 0,
     perPage = 30,
     sort = null,
+    filter = null,
   }: ExecuteSafePaginatedParameters<S>): Promise<
     AxiosResponse<PaginatedResponse<T>>
   > {
@@ -128,6 +133,7 @@ export class ApiService {
         page: page + 1,
         perPage: perPage,
         ...this.makeSortQueryFromGridSortModel(sort),
+        ...this.makeFilterQueryFromGridFilterModel(filter),
       },
     );
   }
@@ -172,6 +178,24 @@ export class ApiService {
     const query = {};
     for (const gridSortItem of sortModel) {
       query[`order[${gridSortItem.field}]`] = gridSortItem.sort;
+    }
+
+    return query;
+  }
+
+  private makeFilterQueryFromGridFilterModel(filterModel: GridFilterModel) {
+    if (filterModel === null) {
+      return {};
+    }
+
+    const query = {};
+    for (const gridFilter of filterModel.items) {
+      switch (gridFilter.operator) {
+        case "equals":
+        case "contains":
+          query[gridFilter.field] = gridFilter.value;
+          break;
+      }
     }
 
     return query;
