@@ -11,9 +11,9 @@ use Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class AuthUserProvider implements UserProviderInterface
+readonly class AuthUserProvider implements UserProviderInterface
 {
-    public function __construct(private readonly UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository)
     {
     }
 

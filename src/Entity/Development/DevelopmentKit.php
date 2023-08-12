@@ -35,10 +35,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(provider: DevelopmentKitProvider::class),
         new GetCollection(provider: DevelopmentKitCollectionProvider::class),
-        new Post(input: DevelopmentKitCreateDto::class, processor: CreateDevelopmentKitProcessor::class),
+        new Post(security: "is_granted('ROLE_MODIFY_DEVELOPMENT_KIT')", input: DevelopmentKitCreateDto::class, processor: CreateDevelopmentKitProcessor::class),
         new Put(
             uriTemplate: '/development_kits/{id}/increment_untracked',
             controller: IncrementDevelopmentKitController::class,
+            security: "is_granted('ROLE_MODIFY_DEVELOPMENT_KIT')",
             input: false,
             output: false,
             read: false,
