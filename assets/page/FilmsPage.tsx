@@ -7,7 +7,7 @@ import { BasePage } from "./BasePage";
 
 export const FilmsPage = () => {
   const columns: GridColDef[] = [
-    { field: "name", headerName: "Name", width: 350 },
+    { field: "name", headerName: "Name", width: 350, hideable: false },
     {
       field: "type",
       headerName: "Type",

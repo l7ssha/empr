@@ -29,14 +29,14 @@ export function SimpleDataGrid<T>({
         columns={columns}
         rows={result}
         rowCount={totalRowCount}
+        pageSizeOptions={[5, 10, 25]}
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
-        paginationMode="server"
-        pageSizeOptions={[5, 10, 25]}
         onSortModelChange={handleSortModeChange}
-        sortingMode="server"
-        filterMode="server"
         onFilterModelChange={handleFilterChange}
+        sortingMode="server"
+        paginationMode="server"
+        filterMode="server"
       />
     </TableContainer>
   );

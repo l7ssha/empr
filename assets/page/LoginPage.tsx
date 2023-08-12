@@ -41,7 +41,7 @@ export const LoginPage = () => {
             <Box>
               <Controller
                 name="login"
-                rules={{ required: true, minLength: 1 }}
+                rules={{ required: true }}
                 control={control}
                 render={({ field }) => (
                   <Box>
