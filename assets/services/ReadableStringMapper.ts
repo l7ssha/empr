@@ -1,6 +1,6 @@
-import { DevelopmentType, FilmType } from "./ApiService";
+import { DevelopmentType, FilmType } from "./dataTypes";
 
-export function mapFilmType(type: FilmType): string {
+export function mapFilmType(type: FilmType|string): string {
   switch (type) {
     case "bw":
       return "Black and white";

@@ -1,4 +1,4 @@
-import { Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import {
   GridColDef,
   GridToolbarContainer,
@@ -8,6 +8,7 @@ import { SimpleDataGrid } from "../component/SimpleDataGrid";
 import apiService from "../services/ApiService";
 import { mapDevelopmentType } from "../services/ReadableStringMapper";
 import { BasePage } from "./BasePage";
+import { PaperSection } from "../component/PaperSection";
 
 function GridToolbar() {
   return (
@@ -31,19 +32,17 @@ export const DevelopmentKitsPage = () => {
 
   return (
     <BasePage>
-      <Paper
-        elevation={0}
-        variant="outlined"
-        square
-        sx={{ marginTop: "10px", padding: "5px" }}
-      >
+      <PaperSection>
+        <Button variant='outlined'>Create new kit</Button>
+      </PaperSection>
+      <PaperSection>
         <SimpleDataGrid
           columns={columns}
           callback={(pagination, sortModel) =>
             apiService.getAllDevelopmentKits(pagination, sortModel)
           }
         />
-      </Paper>
+      </PaperSection>
     </BasePage>
   );
 };

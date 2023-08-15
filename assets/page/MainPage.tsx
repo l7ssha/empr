@@ -1,19 +1,13 @@
 import { Container, Paper } from "@mui/material";
 import { BasePage } from "./BasePage";
+import { PaperSection } from "../component/PaperSection";
 
 export const MainPage = () => {
   return (
     <BasePage>
-      <Container>
-        <Paper
-          elevation={0}
-          variant="outlined"
-          square
-          sx={{ marginTop: "10px", padding: "5px" }}
-        >
+        <PaperSection>
           TEST
-        </Paper>
-      </Container>
+        </PaperSection>
     </BasePage>
   );
 };

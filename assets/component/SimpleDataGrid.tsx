@@ -18,7 +18,7 @@ export function SimpleDataGrid<T>({
     result,
     totalRowCount,
     paginationModel,
-    setPaginationModel,
+    handlePaginationModel,
     handleSortModeChange,
     handleFilterChange,
   } = usePaginatedDataQuery(callback);
@@ -31,7 +31,7 @@ export function SimpleDataGrid<T>({
         rowCount={totalRowCount}
         pageSizeOptions={[5, 10, 25]}
         paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
+        onPaginationModelChange={handlePaginationModel}
         onSortModelChange={handleSortModeChange}
         onFilterModelChange={handleFilterChange}
         sortingMode="server"

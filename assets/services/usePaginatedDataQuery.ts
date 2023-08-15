@@ -9,7 +9,7 @@ export interface usePaginationInterface<T> {
   result: T[];
   totalRowCount: number;
   paginationModel: PaginationModel;
-  setPaginationModel: (
+  handlePaginationModel: (
     model: GridPaginationModel,
     details: GridCallbackDetails,
   ) => void;
@@ -53,6 +53,7 @@ export function usePaginatedDataQuery<T>(
     callback(paginationModel, sortModel, filterModel).then((result) => {
       setTotalRowCount(result.total);
       setResult(result.results);
+
       setPreviousPaginationModel(paginationModel);
       setPreviousSortModel(sortModel);
       setPreviousFilterModel(filterModel);
@@ -90,7 +91,7 @@ export function usePaginatedDataQuery<T>(
     result: result,
     totalRowCount: totalRowCount,
     paginationModel: paginationModel,
-    setPaginationModel: setPaginationModel,
+    handlePaginationModel: setPaginationModel,
     handleSortModeChange: (sortModel) => setSortModel(sortModel),
     handleFilterChange: (filterModel) => setFilterModel(filterModel),
   };

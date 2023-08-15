@@ -4,21 +4,12 @@ import { AxiosError, AxiosResponse, Method } from "axios";
 import { useUser } from "./auth/useUser";
 import axios from "./axios";
 import { PaginationModel } from "./usePaginatedDataQuery";
+import { DevelopmentType, FilmType } from "./dataTypes";
 
 export interface LoginResponse {
   token: string;
   refreshToken: string;
 }
-
-export type FilmType = "bw" | "color_negative" | "color_positive";
-export type DevelopmentType =
-  | "bw_negative"
-  | "bw_positive"
-  | "bw_one_shot"
-  | "color_negative_3step"
-  | "color_negative_2step"
-  | "color_positive_3step"
-  | "color_positive_6step";
 
 export interface FilmResponse {
   id: string;
@@ -94,6 +85,18 @@ export class ApiService {
       sort: sortModel,
       filter: filterModel,
     });
+
+    return data;
+  }
+
+  public async createFilm(
+    payload: any
+  ): Promise<FilmResponse> {
+    const {data} = await this.executeSafe<FilmResponse>(
+      '/api/films',
+      payload,
+      'POST',
+    );
 
     return data;
   }

@@ -1,9 +1,10 @@
 import { Button, Paper } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { SimpleDataGrid } from "../component/SimpleDataGrid";
-import apiService from "../services/ApiService";
-import { mapFilmType } from "../services/ReadableStringMapper";
-import { BasePage } from "./BasePage";
+import { SimpleDataGrid } from "../../component/SimpleDataGrid";
+import apiService from "../../services/ApiService";
+import { mapFilmType } from "../../services/ReadableStringMapper";
+import { BasePage } from "../BasePage";
+import { PaperSection } from "../../component/PaperSection";
 
 export const FilmsPage = () => {
   const columns: GridColDef[] = [
@@ -38,19 +39,14 @@ export const FilmsPage = () => {
 
   return (
     <BasePage>
-      <Paper
-        elevation={0}
-        variant="outlined"
-        square
-        sx={{ marginTop: "10px", padding: "5px" }}
-      >
+      <PaperSection>
         <SimpleDataGrid
           columns={columns}
           callback={(pagination, sortModel, filterModel) =>
             apiService.getAllFilms(pagination, sortModel, filterModel)
           }
         />
-      </Paper>
+      </PaperSection>
     </BasePage>
   );
 };
