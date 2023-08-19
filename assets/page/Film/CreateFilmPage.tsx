@@ -1,15 +1,23 @@
-import { BasePage } from "../BasePage";
-import { PaperSection } from "../../component/PaperSection";
-import { SimpleDataGrid } from "../../component/SimpleDataGrid";
-import apiService from "../../services/ApiService";
-import { Controller, useForm } from "react-hook-form";
+import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Button, Input, Select } from "@mui/material";
-import { InfoSpan } from "../../component/info/InfoSpan";
-import SelectInput from "@mui/material/Select/SelectInput";
-import { FilmType, FilmTypeEnum } from "../../services/dataTypes";
-import MenuItem from "@mui/material/MenuItem";
+import Grid from "@mui/material/Unstable_Grid2";
+import { useForm } from "react-hook-form";
+import {
+  FormContainer,
+  SelectElement,
+  TextFieldElement,
+} from "react-hook-form-mui";
+import { ValidationValueMessage } from "react-hook-form/dist/types/validator";
+import apiService from "../../services/ApiService";
 import { mapFilmType } from "../../services/ReadableStringMapper";
+import { FilmTypeEnum } from "../../services/dataTypes";
+
+function makeMaxLengthRule(maxLength: number): ValidationValueMessage<number> {
+  return {
+    value: maxLength,
+    message: `Max length allowed: ${maxLength}`,
+  };
+}
 
 export function CreateFilmPage() {
   const {
@@ -19,60 +27,64 @@ export function CreateFilmPage() {
   } = useForm();
 
   const onSubmit = async (data: any) => {
-    const result = await apiService.createFilm({...data, speed: Number(data.speed)});
+    const result = await apiService.createFilm({
+      ...data,
+      speed: Number(data.speed),
+    });
     console.log(data);
     console.log(result);
   };
 
   return (
-    <BasePage>
-      <PaperSection>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box>
-            <Controller
+    <Grid
+      container
+      spacing={2}
+      justifyContent="center"
+      alignItems="center"
+      direction="column"
+    >
+      <Grid display="flex">
+        <h1>EMPR</h1>
+      </Grid>
+      <Grid display="flex">
+        <FormContainer
+          onSuccess={onSubmit}
+          defaultValues={{ type: FilmTypeEnum.BlackAndWhite }}
+        >
+          <Box sx={{ margin: 1 }}>
+            <TextFieldElement
               name="name"
-              rules={{ required: true, maxLength: 64 }}
-              control={control}
-              render={({ field }) => (
-                <Box>
-                  <Input placeholder="Name" {...field} />
-                </Box>
-              )}
+              label="Name"
+              required
+              validation={{ maxLength: makeMaxLengthRule(64) }}
             />
           </Box>
-          <Box>
-            <Controller
+          <Box sx={{ margin: 1 }}>
+            <TextFieldElement
               name="speed"
-              rules={{ required: true}}
-              control={control}
-              render={({ field }) => (
-                <Box>
-                  <Input placeholder="Speed (ISO/ASA)" {...field} type='number' />
-                </Box>
-              )}
+              label="Speed (ISO/ASA)"
+              required
+              type="number"
             />
           </Box>
-          <Box>
-            <Controller
+          <Box sx={{ margin: 1 }}>
+            <SelectElement
+              placeholder="Type"
               name="type"
-              rules={{ required: true }}
-              control={control}
-              render={({ field }) => (
-                <Box>
-                  <Select placeholder="Type" {...field} defaultValue={FilmTypeEnum.BlackAndWhite}>
-                    {
-                      Object.values(FilmTypeEnum).map((filmType) => <MenuItem key={filmType} value={filmType}>{mapFilmType(filmType)}</MenuItem>)
-                    }
-                  </Select>
-                </Box>
-              )}
-            />
+              defaultValue={FilmTypeEnum.BlackAndWhite}
+              required
+              options={[
+                ...Object.values(FilmTypeEnum).map((filmType) => {
+                  return { id: filmType, label: mapFilmType(filmType) };
+                }),
+              ]}
+            ></SelectElement>
           </Box>
-          <Box>
-            <Button type="submit">Submit</Button>
+          <Box sx={{ margin: 1 }}>
+            <Button type="submit">Log in</Button>
           </Box>
-        </form>
-      </PaperSection>
-    </BasePage>
+        </FormContainer>
+      </Grid>
+    </Grid>
   );
 }

@@ -1,13 +1,10 @@
-import { Container, Paper } from "@mui/material";
-import { BasePage } from "./BasePage";
 import { PaperSection } from "../component/PaperSection";
+import { BasePage } from "./BasePage";
 
 export const MainPage = () => {
   return (
     <BasePage>
-        <PaperSection>
-          TEST
-        </PaperSection>
+      <PaperSection>TEST</PaperSection>
     </BasePage>
   );
 };

@@ -1,10 +1,9 @@
-
 export type FilmType = "bw" | "color_negative" | "color_positive";
 
 export enum FilmTypeEnum {
-  BlackAndWhite = 'bw',
-  ColorNegative = 'color_negative',
-  ColorPositive = 'color_positive',
+  BlackAndWhite = "bw",
+  ColorNegative = "color_negative",
+  ColorPositive = "color_positive",
 }
 
 export type DevelopmentType =

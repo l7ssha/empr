@@ -3,8 +3,8 @@ import { GridFilterModel } from "@mui/x-data-grid/models/gridFilterModel";
 import { AxiosError, AxiosResponse, Method } from "axios";
 import { useUser } from "./auth/useUser";
 import axios from "./axios";
-import { PaginationModel } from "./usePaginatedDataQuery";
 import { DevelopmentType, FilmType } from "./dataTypes";
+import { PaginationModel } from "./usePaginatedDataQuery";
 
 export interface LoginResponse {
   token: string;
@@ -89,13 +89,11 @@ export class ApiService {
     return data;
   }
 
-  public async createFilm(
-    payload: any
-  ): Promise<FilmResponse> {
-    const {data} = await this.executeSafe<FilmResponse>(
-      '/api/films',
+  public async createFilm(payload: any): Promise<FilmResponse> {
+    const { data } = await this.executeSafe<FilmResponse>(
+      "/api/films",
       payload,
-      'POST',
+      "POST",
     );
 
     return data;

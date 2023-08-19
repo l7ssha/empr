@@ -1,14 +1,14 @@
-import { Button, Paper } from "@mui/material";
+import { Button } from "@mui/material";
 import {
   GridColDef,
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
+import { PaperSection } from "../component/PaperSection";
 import { SimpleDataGrid } from "../component/SimpleDataGrid";
 import apiService from "../services/ApiService";
 import { mapDevelopmentType } from "../services/ReadableStringMapper";
 import { BasePage } from "./BasePage";
-import { PaperSection } from "../component/PaperSection";
 
 function GridToolbar() {
   return (
@@ -33,7 +33,7 @@ export const DevelopmentKitsPage = () => {
   return (
     <BasePage>
       <PaperSection>
-        <Button variant='outlined'>Create new kit</Button>
+        <Button variant="outlined">Create new kit</Button>
       </PaperSection>
       <PaperSection>
         <SimpleDataGrid

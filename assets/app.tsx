@@ -10,9 +10,9 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { DevelopmentKitsPage } from "./page/DevelopmentKitsPage";
+import { CreateFilmPage } from "./page/Film/CreateFilmPage";
 import { FilmsPage } from "./page/Film/FilmsPage";
 import { MainPage } from "./page/MainPage";
-import { CreateFilmPage } from "./page/Film/CreateFilmPage";
 
 const App = () => {
   return (

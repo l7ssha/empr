@@ -1,10 +1,10 @@
-import { Button, Paper } from "@mui/material";
+import { Button } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
+import { PaperSection } from "../../component/PaperSection";
 import { SimpleDataGrid } from "../../component/SimpleDataGrid";
 import apiService from "../../services/ApiService";
 import { mapFilmType } from "../../services/ReadableStringMapper";
 import { BasePage } from "../BasePage";
-import { PaperSection } from "../../component/PaperSection";
 
 export const FilmsPage = () => {
   const columns: GridColDef[] = [

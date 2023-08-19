@@ -1,9 +1,8 @@
-import { Button, Container, Input } from "@mui/material";
+import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Controller, useForm } from "react-hook-form";
+import { FormContainer, TextFieldElement } from "react-hook-form-mui";
 import { Navigate, useNavigate } from "react-router-dom";
-import { InfoSpan } from "../component/info/InfoSpan";
 import { useAuth } from "../services/auth/useAuth";
 
 export const LoginPage = () => {
@@ -13,12 +12,6 @@ export const LoginPage = () => {
   }
 
   const navigate = useNavigate();
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
   const onSubmit = async (data: any) => {
     await login(data.login, data.password);
     navigate("/");
@@ -36,43 +29,22 @@ export const LoginPage = () => {
         <h1>EMPR</h1>
       </Grid>
       <Grid display="flex">
-        <Container>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box>
-              <Controller
-                name="login"
-                rules={{ required: true }}
-                control={control}
-                render={({ field }) => (
-                  <Box>
-                    <Input placeholder="Username" {...field} />
-                    {errors.login?.type === "required" && (
-                      <InfoSpan type="danger" message="Login is required!" />
-                    )}
-                  </Box>
-                )}
-              />
-            </Box>
-            <Box>
-              <Controller
-                name="password"
-                rules={{ required: true }}
-                control={control}
-                render={({ field }) => (
-                  <Box>
-                    <Input placeholder="Password" type="password" {...field} />
-                    {errors.password?.type === "required" && (
-                      <InfoSpan type="danger" message="Password is required!" />
-                    )}
-                  </Box>
-                )}
-              />
-            </Box>
-            <Box>
-              <Button type="submit">Log in</Button>
-            </Box>
-          </form>
-        </Container>
+        <FormContainer defaultValues={{ login: "" }} onSuccess={onSubmit}>
+          <Box sx={{ margin: 1 }}>
+            <TextFieldElement name="login" label="Username" required />
+          </Box>
+          <Box sx={{ margin: 1 }}>
+            <TextFieldElement
+              name="password"
+              label="Password"
+              required
+              type="password"
+            />
+          </Box>
+          <Box sx={{ margin: 1 }}>
+            <Button type="submit">Log in</Button>
+          </Box>
+        </FormContainer>
       </Grid>
     </Grid>
   );
