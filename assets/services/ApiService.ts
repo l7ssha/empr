@@ -34,6 +34,27 @@ export interface PaginatedResponse<T> {
   results: Array<T>;
 }
 
+export interface ViolationResponseViolation {
+  propertyPath: string;
+  message: string;
+  code: string;
+}
+
+export interface ValidationResponse {
+  detail: string;
+  title: string;
+  violations: ViolationResponseViolation[];
+}
+
+export class ValidationError extends Error {
+  validationResponse: ValidationResponse;
+
+  constructor(validationResponse: ValidationResponse) {
+    super("ValidationErrors");
+    this.validationResponse = validationResponse;
+  }
+}
+
 interface ExecuteSafePaginatedParameters<S> {
   url: string;
   data?: S | null;
@@ -90,11 +111,7 @@ export class ApiService {
   }
 
   public async createFilm(payload: any): Promise<FilmResponse> {
-    const { data } = await this.executeSafe<FilmResponse>(
-      "/api/films",
-      payload,
-      "POST",
-    );
+    const { data } = await this.executeSafe<FilmResponse>("/api/films", payload, "POST");
 
     return data;
   }
@@ -122,21 +139,13 @@ export class ApiService {
     perPage = 30,
     sort = null,
     filter = null,
-  }: ExecuteSafePaginatedParameters<S>): Promise<
-    AxiosResponse<PaginatedResponse<T>>
-  > {
-    return this.executeSafe<PaginatedResponse<T>, S>(
-      url,
-      data,
-      method,
-      useAuth,
-      {
-        page: page + 1,
-        perPage: perPage,
-        ...this.makeSortQueryFromGridSortModel(sort),
-        ...this.makeFilterQueryFromGridFilterModel(filter),
-      },
-    );
+  }: ExecuteSafePaginatedParameters<S>): Promise<AxiosResponse<PaginatedResponse<T>>> {
+    return this.executeSafe<PaginatedResponse<T>, S>(url, data, method, useAuth, {
+      page: page + 1,
+      perPage: perPage,
+      ...this.makeSortQueryFromGridSortModel(sort),
+      ...this.makeFilterQueryFromGridFilterModel(filter),
+    });
   }
 
   private async executeSafe<T, S = any>(
@@ -164,10 +173,16 @@ export class ApiService {
       });
     } catch (e) {
       if (e instanceof AxiosError) {
-        throw new Error(`ApiService error: '${e.message}'; Code: '${e.code}'`);
+        if (e.response.status == 422) {
+          const responseData = e.response.data as ValidationResponse;
+
+          throw new ValidationError(responseData);
+        }
+
+        throw new Error(`ApiService error: '${e.message}'; Code: '${e.status}'`);
       }
 
-      throw new e();
+      throw e;
     }
   }
 

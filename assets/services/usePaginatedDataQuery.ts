@@ -9,10 +9,7 @@ export interface usePaginationInterface<T> {
   result: T[];
   totalRowCount: number;
   paginationModel: PaginationModel;
-  handlePaginationModel: (
-    model: GridPaginationModel,
-    details: GridCallbackDetails,
-  ) => void;
+  handlePaginationModel: (model: GridPaginationModel, details: GridCallbackDetails) => void;
   handleFilterChange: SetHandleFilterChange;
   handleSortModeChange: SetHandleSortModelChange;
 }
@@ -31,9 +28,7 @@ export type GetResultCallback<T> = (
 export type SetHandleSortModelChange = (sortModel: GridSortModel) => void;
 export type SetHandleFilterChange = (filterModel: GridFilterModel) => void;
 
-export function usePaginatedDataQuery<T>(
-  callback: GetResultCallback<T>,
-): usePaginationInterface<T> {
+export function usePaginatedDataQuery<T>(callback: GetResultCallback<T>): usePaginationInterface<T> {
   const [result, setResult] = useState<T[]>([]);
   const [totalRowCount, setTotalRowCount] = useState(0);
   const [paginationModel, setPaginationModel] = useState<PaginationModel>({
@@ -41,13 +36,10 @@ export function usePaginatedDataQuery<T>(
     page: 0,
   });
   const [sortModel, setSortModel] = useState<GridSortModel | null>(null);
-  const [previousPaginationModel, setPreviousPaginationModel] =
-    useState<PaginationModel | null>(null);
-  const [previousSortModel, setPreviousSortModel] =
-    useState<GridSortModel | null>(null);
+  const [previousPaginationModel, setPreviousPaginationModel] = useState<PaginationModel | null>(null);
+  const [previousSortModel, setPreviousSortModel] = useState<GridSortModel | null>(null);
   const [filterModel, setFilterModel] = useState<GridFilterModel | null>(null);
-  const [previousFilterModel, setPreviousFilterModel] =
-    useState<GridFilterModel | null>(null);
+  const [previousFilterModel, setPreviousFilterModel] = useState<GridFilterModel | null>(null);
 
   const performDataQuery = () => {
     callback(paginationModel, sortModel, filterModel).then((result) => {

@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\Dto\Development\Developer\CreateDeveloperInputDto;
 use App\Dto\Development\Developer\DeveloperOutputDto;
+use App\Entity\SoftDeleteTrait;
 use App\State\Processor\CreateDeveloperProcessor;
 use App\State\Provider\Development\Developer\DeveloperCollectionProvider;
 use App\State\Provider\Development\Developer\DeveloperProvider;
@@ -28,11 +29,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(output: DeveloperOutputDto::class, provider: DeveloperProvider::class),
         new GetCollection(output: DeveloperOutputDto::class, provider: DeveloperCollectionProvider::class),
-        new Post(input: CreateDeveloperInputDto::class, output: DeveloperOutputDto::class, processor: CreateDeveloperProcessor::class), // TODO: Add permissions
+        new Post(security: "is_granted('ROLE_MANAGE_DEVELOPERS')", input: CreateDeveloperInputDto::class, output: DeveloperOutputDto::class, processor: CreateDeveloperProcessor::class),
     ],
 )]
 class Developer
 {
+    use SoftDeleteTrait;
+
     #[Id]
     #[Column(length: 36, updatable: false)]
     #[Assert\Uuid]

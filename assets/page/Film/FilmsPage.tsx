@@ -31,20 +31,19 @@ export const FilmsPage = () => {
       disableColumnMenu: true,
       headerAlign: "right",
       align: "right",
-      renderCell: (params) => (
-        <Button onClick={() => console.log(params)}>Edit</Button>
-      ),
+      renderCell: (params) => <Button onClick={() => console.log(params)}>Edit</Button>,
     },
   ];
 
   return (
     <BasePage>
       <PaperSection>
+        <Button variant="outlined" href={"/films/create"}>Create new film</Button>
+      </PaperSection>
+      <PaperSection>
         <SimpleDataGrid
           columns={columns}
-          callback={(pagination, sortModel, filterModel) =>
-            apiService.getAllFilms(pagination, sortModel, filterModel)
-          }
+          callback={(pagination, sortModel, filterModel) => apiService.getAllFilms(pagination, sortModel, filterModel)}
         />
       </PaperSection>
     </BasePage>

@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "allowSyntheticDefaultImports": true
-  },
-  "module": "es2015"
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "module": "commonjs"
+  }
 }

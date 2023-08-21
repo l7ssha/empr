@@ -1,27 +1,15 @@
 import { Paper, TableContainer } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import {
-  GetResultCallback,
-  usePaginatedDataQuery,
-} from "../services/usePaginatedDataQuery";
+import { GetResultCallback, usePaginatedDataQuery } from "../services/usePaginatedDataQuery";
 
 export interface SimpleDataGridProps<T> {
   callback: GetResultCallback<T>;
   columns: GridColDef[];
 }
 
-export function SimpleDataGrid<T>({
-  callback,
-  columns,
-}: SimpleDataGridProps<T>) {
-  const {
-    result,
-    totalRowCount,
-    paginationModel,
-    handlePaginationModel,
-    handleSortModeChange,
-    handleFilterChange,
-  } = usePaginatedDataQuery(callback);
+export function SimpleDataGrid<T>({ callback, columns }: SimpleDataGridProps<T>) {
+  const { result, totalRowCount, paginationModel, handlePaginationModel, handleSortModeChange, handleFilterChange } =
+    usePaginatedDataQuery(callback);
 
   return (
     <TableContainer component={Paper}>

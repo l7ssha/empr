@@ -17,9 +17,7 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null,
-  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -57,10 +55,7 @@ function ResponsiveAppBar() {
             EMPR
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <MenuItem
-              key="development kits"
-              onClick={() => navigate("/development-kits")}
-            >
+            <MenuItem key="development kits" onClick={() => navigate("/development-kits")}>
               <Typography textAlign="center">development kits</Typography>
             </MenuItem>
 

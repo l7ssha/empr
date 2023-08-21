@@ -8,11 +8,14 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\Dto\Film\FilmCreateDto;
 use App\Dto\Film\FilmOutputDto;
+use App\Entity\SoftDeleteTrait;
 use App\Enum\FilmType;
+use App\State\Controller\DeleteFilmController;
 use App\State\Processor\CreateFilmProcessor;
 use App\State\Provider\Film\FilmCollectionProvider;
 use Doctrine\ORM\Mapping\Column;
@@ -28,7 +31,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new GetCollection(provider: FilmCollectionProvider::class),
-        new Post(security: "is_granted('ROLE_CREATE_FILMS')", input: FilmCreateDto::class, processor: CreateFilmProcessor::class),
+        new Post(security: "is_granted('ROLE_MANAGE_FILMS')", input: FilmCreateDto::class, processor: CreateFilmProcessor::class),
+        new Delete(security: "is_granted('ROLE_MANAGE_FILMS')", controller: DeleteFilmController::class),
     ],
     output: FilmOutputDto::class,
     order: ['name' => 'ASC'],
@@ -38,6 +42,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(SearchFilter::class, properties: ['name' => 'ipartial'])]
 class Film
 {
+    use SoftDeleteTrait;
+
     #[Id]
     #[Column(length: 36, updatable: false)]
     #[Assert\Uuid]

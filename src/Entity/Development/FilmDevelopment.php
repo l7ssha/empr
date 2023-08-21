@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new GetCollection(provider: FilmDevelopmentCollectionProvider::class),
-        new Post(security: "is_granted('ROLE_MODIFY_DEVELOPMENT_KIT')", input: FilmDevelopmentCreateDto::class, processor: CreateFilmDevelopmentProcessor::class),
+        new Post(security: "is_granted('ROLE_MANAGE_DEVELOPMENT_KIT')", input: FilmDevelopmentCreateDto::class, processor: CreateFilmDevelopmentProcessor::class),
     ],
     output: FilmDevelopmentOutputDto::class,
     order: ['developmentNumber' => 'DESC'],

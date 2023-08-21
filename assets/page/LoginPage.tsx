@@ -18,13 +18,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <Grid
-      container
-      spacing={2}
-      justifyContent="center"
-      alignItems="center"
-      direction="column"
-    >
+    <Grid container spacing={2} justifyContent="center" alignItems="center" direction="column">
       <Grid display="flex">
         <h1>EMPR</h1>
       </Grid>
@@ -34,12 +28,7 @@ export const LoginPage = () => {
             <TextFieldElement name="login" label="Username" required />
           </Box>
           <Box sx={{ margin: 1 }}>
-            <TextFieldElement
-              name="password"
-              label="Password"
-              required
-              type="password"
-            />
+            <TextFieldElement name="password" label="Password" required type="password" />
           </Box>
           <Box sx={{ margin: 1 }}>
             <Button type="submit">Log in</Button>

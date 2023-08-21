@@ -10,9 +10,7 @@ export const useAuth = () => {
   };
 
   const refreshToken = async (): Promise<string> => {
-    const { token, refreshToken } = await api.refreshToken(
-      getUser().refreshToken,
-    );
+    const { token, refreshToken } = await api.refreshToken(getUser().refreshToken);
     updateUser({ token: token, refreshToken: refreshToken });
 
     return token;

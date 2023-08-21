@@ -49,6 +49,18 @@ readonly class AbstractRepository
     }
 
     /**
+     * @param T $entity
+     */
+    public function remove(object $entity, bool $flush = false): void
+    {
+        $this->manager->getManager()->remove($entity);
+
+        if ($flush) {
+            $this->manager->getManager()->flush();
+        }
+    }
+
+    /**
      * @return EntityRepository<T>
      */
     protected function getRepository(): ObjectRepository
